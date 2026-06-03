@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Получить ТСР по ИПРА бесплатно — помощь куратора за 2 недели | IPRAhelp.ru</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/tailwind.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #0F2347 0%, #1B3A6B 50%, #1a5276 100%); }
+    .gradient-card { background: linear-gradient(135deg, #1B3A6B, #154360); }
+    .orange-glow { box-shadow: 0 0 30px rgba(255,107,43,0.3); }
+    .option-card { transition: all 0.2s ease; cursor: pointer; border: 2px solid #E2E8F0; }
+    .option-card:hover { border-color: #FF6B2B; background: #FFF7F4; transform: translateY(-2px); }
+    .option-card.selected { border-color: #FF6B2B; background: #FFF3EE; }
+    .option-card.selected .option-check { display: flex; }
+    .option-check { display: none; }
+    .result-card { animation: fadeInUp 0.5s ease; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .progress-bar { transition: width 0.4s ease; }
+    .webinar-section { background: linear-gradient(135deg, #0F2347 0%, #1B3A6B 100%); }
+    .tag { display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+    input, textarea, select { outline:none; }
+    input:focus, textarea:focus, select:focus { border-color:#FF6B2B !important; box-shadow:0 0 0 3px rgba(255,107,43,0.15); }
+    /* honeypot — скрыто от людей, ловит ботов */
+    .hp-field { position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
+    /* инлайн-ошибки форм (вместо alert) */
+    .input-error { border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15) !important; }
+    .consent-error { color:#ef4444; }
+    .consent-error input[type="checkbox"] { outline:2px solid #ef4444; outline-offset:2px; }
+    /* строка ТСР в результате: на десктопе бейдж справа, на узких экранах — отдельной строкой под названием */
+    .tsr-body { flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:4px 8px; }
+    .tsr-text { flex:1 1 auto; min-width:0; }
+    .tsr-badge { flex:0 0 auto; align-self:flex-start; white-space:nowrap; }
+    @media (max-width:480px){
+      /* название занимает всю первую строку (слова не рвутся по слогам), бейдж переносится под него */
+      .tsr-text { flex-basis:100%; }
+    }
+    .btn-primary { background:linear-gradient(135deg,#FF6B2B,#e85d1a); transition:all 0.2s; }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 8px 25px rgba(255,107,43,0.4); }
+    .floating-badge { animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#f1f5f9; }
+    ::-webkit-scrollbar-thumb { background:#1B3A6B; border-radius:3px; }
+    .tg-float { position:fixed; bottom:24px; right:24px; z-index:9999; }
+    .tg-float a { display:flex; align-items:center; gap:10px; background:#229ED9; color:white;
+      font-weight:700; font-size:15px; padding:14px 22px; border-radius:50px;
+      box-shadow:0 8px 30px rgba(34,158,217,0.5); text-decoration:none;
+      transition:all 0.2s; }
+    .tg-float a:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(34,158,217,0.6); }
+    .tg-label { display:inline; }
+    @media (max-width:640px) {
+      .tg-float { bottom:16px; right:16px; }
+      .tg-float a { padding:14px; border-radius:50%; }
+      .tg-label { display:none; }
+      /* на телефоне оставляем один плавающий контакт (Telegram) — ВК/Макс есть в контенте,
+         три кнопки перекрывали CTA-блок. Превращаем Telegram в аккуратный круг. */
+      .float-social { display:none !important; }
+      .tg-fab { padding:14px !important; border-radius:50% !important; }
+      /* запас снизу, чтобы плавающая кнопка не накрывала ссылки в подвале */
+      footer { padding-bottom:5.5rem !important; }
+    }
+    .urgency-bar { background:linear-gradient(90deg,#D97706,#F59E0B); }
+    .case-card { transition:all 0.2s; }
+    .case-card:hover { transform:translateY(-4px); box-shadow:0 20px 40px rgba(27,58,107,0.12); }
+    .faq-item summary { cursor:pointer; list-style:none; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item[open] summary .faq-icon { transform:rotate(45deg); }
+    .faq-icon { transition:transform 0.2s; }
+    .tsr-card { border:2px solid #E2E8F0; transition:all 0.2s; }
+    .tsr-card:hover { border-color:#FF6B2B; transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,107,43,0.15); }
+    .calc-result { animation:fadeInUp 0.4s ease; }
+    .counter-num { font-variant-numeric:tabular-nums; }
+    .step-line { background: linear-gradient(180deg,#FF6B2B,#1B3A6B); }
+    .why-card { border-left: 4px solid; }
+    .path-card { transition: all 0.25s ease; cursor: pointer; border: 2px solid; }
+    .path-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+    .novice-step { transition: background 0.2s; }
+    .novice-step:hover { background: rgba(255,255,255,0.15) !important; }
+    .wow-amount { font-variant-numeric: tabular-nums; font-size:3rem; line-height:1; white-space:nowrap; }
+    /* на узких экранах уменьшаем, чтобы «240 000 ₽» не переносило ₽ на вторую строку */
+    @media (max-width:480px){ .wow-amount { font-size:2.25rem; } }
+    .calc-status { transition: all 0.3s ease; }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    .slide-down { animation: slideDown 0.4s ease; }
+    .data-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:4px 12px; border-radius:999px; }
+  </style>
+</head>
+<body class="bg-[#FFF8F5]">
+
+<!-- ═══ URGENCY BAR ═══ -->
+<div class="urgency-bar text-white text-center h-9 flex items-center justify-center px-4 text-xs sm:text-sm font-semibold fixed top-0 left-0 right-0 z-[60] overflow-hidden">
+  <span class="hidden sm:inline">Сегодня <strong id="helpedToday">8</strong> семей узнали что им положено бесплатно &nbsp;·&nbsp;</span>
+  <span id="urgencySlots">Куратор ответит сегодня до <strong>20:00</strong> &nbsp;·&nbsp; Это занимает <strong>15 минут</strong></span>
+</div>
+
+<!-- ═══ НАВБАР ═══ -->
+<nav class="fixed top-9 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl gradient-card flex items-center justify-center">
+        <span class="text-white font-black text-lg">M</span>
+      </div>
+      <div>
+        <div class="font-black text-gray-900 text-lg leading-none">Mobilita</div>
+        <div class="hidden sm:block text-xs text-gray-400 leading-none mt-0.5">в партнёрстве с фондом <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:#6b7280;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a></div>
+      </div>
+    </div>
+    <div class="hidden lg:flex items-center gap-6">
+      <a href="#how" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">Как работает</a>
+      <a href="#calculator" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">Калькулятор</a>
+      <a href="#quiz" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">Диагностика</a>
+      <a href="#cases" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">Кейсы</a>
+      <a href="#webinar" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">Вебинар</a>
+      <a href="#faq" class="text-sm text-gray-600 hover:text-orange-500 transition-colors">FAQ</a>
+      <a href="#consult" class="btn-primary text-white text-sm font-semibold px-4 py-2 rounded-lg">
+        Проверить мою ИПРА →
+      </a>
+    </div>
+    <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+      class="lg:hidden btn-primary text-white text-sm font-semibold px-3 py-2 rounded-lg">
+      Начать диагностику
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="gradient-hero pt-28 sm:pt-36 pb-12 sm:pb-16 px-4 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-10 right-10 w-72 h-72 rounded-full bg-orange-400 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-64 rounded-full bg-blue-400 blur-3xl"></div>
+  </div>
+  <div class="max-w-6xl mx-auto relative">
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-5">
+          Получите ТСР по сертификату&nbsp;СФР —<br/>
+          <span class="text-orange-400">без ошибок и переделок</span>
+        </h1>
+        <p class="text-blue-100 text-xl mb-8 leading-snug">
+          Эрготерапевт подберёт коляску, вертикализатор или ортез точно под ваши параметры. Куратор найдёт пробелы в ИПРА и дополнит — без новой МСЭ. Бесплатно, за 7 дней.
+        </p>
+
+        <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+          class="btn-primary orange-glow text-white font-bold px-8 py-4 rounded-xl text-lg w-full sm:w-auto">
+          Подобрать ТСР с эрготерапевтом →
+        </button>
+
+        <div class="flex items-center gap-4 sm:gap-6 mt-7 flex-wrap">
+          <div class="flex items-center gap-2 text-blue-200 text-sm">
+            <span class="text-green-400 text-base">●</span>
+            <span class="font-semibold text-white counter-num" id="heroCounter">1 000</span>
+            <span>семей получили ТСР</span>
+          </div>
+          <div class="w-px h-4 bg-blue-700 hidden sm:block"></div>
+          <div class="flex items-center gap-1.5 text-blue-200 text-sm">
+            <span class="text-orange-400">⭐</span>
+            <span class="font-semibold text-white">4.9</span>
+            <span>рейтинг</span>
+          </div>
+          <div class="w-px h-4 bg-blue-700 hidden sm:block"></div>
+          <div class="text-sm text-blue-200">
+            <span class="font-semibold text-white">0 ₽</span> за сопровождение
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden lg:flex justify-center relative">
+        <div class="w-80 rounded-3xl bg-white/10 backdrop-blur border border-white/20 p-6">
+          <div class="font-bold text-white mb-4 text-sm">Что мы делаем для вас:</div>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3">
+              <span class="text-xl flex-shrink-0">👩‍⚕️</span>
+              <div class="text-white text-sm flex-1 min-w-0">Эрготерапевт подбирает точную модель</div>
+              <div class="ml-auto flex-shrink-0"><span class="bg-purple-400 text-purple-900 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">УТП</span></div>
+            </div>
+            <div class="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3">
+              <span class="text-xl flex-shrink-0">🔍</span>
+              <div class="text-white text-sm flex-1 min-w-0">Находим пробелы в ИПРА</div>
+              <div class="ml-auto flex-shrink-0"><span class="bg-green-400 text-green-900 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">+ТСР</span></div>
+            </div>
+            <div class="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3">
+              <span class="text-xl flex-shrink-0">📝</span>
+              <div class="text-white text-sm flex-1 min-w-0">Дополним ИПРА без новой МСЭ</div>
+              <div class="ml-auto flex-shrink-0"><span class="bg-blue-400 text-blue-900 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">онлайн</span></div>
+            </div>
+            <div class="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3">
+              <span class="text-xl flex-shrink-0">🎁</span>
+              <div class="text-white text-sm flex-1 min-w-0">Подбираем и доставляем ТСР</div>
+              <div class="ml-auto flex-shrink-0"><span class="bg-orange-400 text-orange-900 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">0 ₽</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-badge absolute -top-4 -right-4 bg-orange-500 text-white rounded-xl px-3 py-2 text-sm font-bold shadow-lg">
+          ТСР бесплатно ✓
+        </div>
+        <div class="floating-badge absolute -bottom-4 -left-4 bg-teal-500 text-white rounded-xl px-3 py-2 text-sm font-bold shadow-lg" style="animation-delay:1.5s">
+          Сертификат СФР ✓
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ТРИ ПУТИ ═══ -->
+<section class="py-10 px-4 bg-white border-b border-gray-100" id="paths">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-7">
+      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Выберите вашу ситуацию — покажем точный следующий шаг</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+
+      <!-- Путь 1: Новичок -->
+      <button onclick="choosePath('novice')"
+        class="path-card border-blue-200 bg-blue-50 rounded-2xl p-6 text-left w-full flex flex-col hover:border-blue-400 hover:bg-blue-100 group">
+        <div class="w-12 h-12 rounded-2xl bg-blue-200 flex items-center justify-center text-2xl mb-4">🌱</div>
+        <div class="font-black text-gray-900 text-lg mb-1.5">Только установили инвалидность</div>
+        <div class="text-sm text-gray-500 mb-5 leading-snug grow">Соберём ИПРА с правильными позициями — без беготни по кабинетам. За месяц.</div>
+        <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
+          <span>Начать с нуля</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Путь 2: Расширить ИПРА -->
+      <button onclick="choosePath('check')"
+        class="path-card border-orange-300 bg-orange-50 rounded-2xl p-6 text-left w-full flex flex-col hover:border-orange-500 hover:bg-orange-100 group relative">
+        <div class="absolute top-4 right-4">
+          <span class="text-xs font-black bg-orange-500 text-white px-2.5 py-1 rounded-full">Популярно</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-orange-200 flex items-center justify-center text-2xl mb-4">📋</div>
+        <div class="font-black text-gray-900 text-lg mb-1.5">В моей ИПРА не хватает</div>
+        <div class="text-sm text-gray-500 mb-5 leading-snug grow">За 15 минут найдём что добавить. Поможем переоформить — без новой МСЭ.</div>
+        <div class="flex items-center gap-2 text-orange-600 font-bold text-sm">
+          <span>Проверить на пробелы</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+      <!-- Путь 3: Получить ТСР -->
+      <button onclick="choosePath('yes')"
+        class="path-card border-green-200 bg-green-50 rounded-2xl p-6 text-left w-full flex flex-col hover:border-green-400 hover:bg-green-100 group">
+        <div class="w-12 h-12 rounded-2xl bg-green-200 flex items-center justify-center text-2xl mb-4">💳</div>
+        <div class="font-black text-gray-900 text-lg mb-1.5">Сертификат есть — не знаю что купить</div>
+        <div class="text-sm text-gray-500 mb-5 leading-snug grow">Эрготерапевт подберёт точные модели под ваши параметры. За 1 день. Не дайте сертификату сгореть.</div>
+        <div class="flex items-center gap-2 text-green-600 font-bold text-sm">
+          <span>Подобрать с эрготерапевтом</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ПОЧЕМУ НЕЛЬЗЯ САМОМУ ═══ -->
+<section style="background: linear-gradient(160deg, #0D1F3C 0%, #1B3A6B 100%);" class="py-16 px-4 relative overflow-hidden">
+
+  <!-- Фоновый паттерн -->
+  <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+  <div class="max-w-5xl mx-auto relative">
+
+    <!-- Триколор-полоска -->
+    <div class="flex h-1 mb-10 rounded-full overflow-hidden max-w-[80px] mx-auto">
+      <div class="flex-1 bg-white"></div>
+      <div class="flex-1 bg-blue-500"></div>
+      <div class="flex-1 bg-red-500"></div>
+    </div>
+
+    <!-- Заголовок -->
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 text-xs font-bold text-blue-300 uppercase tracking-widest border border-blue-700 rounded-full px-4 py-1.5 mb-6">
+        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+        По данным официальных источников · РФ
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
+        Государство создало систему.<br/>
+        <span class="text-orange-400">Большинство ею не пользуется.</span>
+      </h2>
+      <p class="mt-5 text-blue-200 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        Миллионы семей живут хуже, чем могли бы — не потому что денег нет, а потому что&nbsp;никто не помог правильно оформить ИПРА и получить положенные ТСР.
+      </p>
+    </div>
+
+    <!-- Три большие цифры -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+
+      <div class="rounded-2xl p-6" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);">
+        <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3">Масштаб проблемы</div>
+        <div class="text-5xl font-black text-white leading-none">каждый<br/><span class="text-orange-400">12-й</span></div>
+        <div class="text-white font-semibold text-sm mt-3 mb-1">россиянин живёт с инвалидностью</div>
+        <div class="flex items-center gap-1.5 mt-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+          <span class="text-blue-400 text-xs">11,1 млн человек · Росстат, 2025</span>
+        </div>
+      </div>
+
+      <div class="rounded-2xl p-6" style="background: rgba(255,107,43,0.12); border: 1px solid rgba(255,107,43,0.3);">
+        <div class="text-xs font-bold text-orange-400 uppercase tracking-widest mb-3">Использование сертификатов</div>
+        <div class="text-5xl font-black text-orange-400 leading-none">4 из 5</div>
+        <div class="text-white font-semibold text-sm mt-3 mb-1">выданных сертификатов на ТСР не были использованы</div>
+        <div class="text-orange-300 text-xs mt-1">986 тыс. выдано — 181 тыс. применено</div>
+        <div class="flex items-center gap-1.5 mt-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></span>
+          <span class="text-orange-300 text-xs">Социальный фонд России, ноябрь 2024</span>
+        </div>
+        <div class="mt-3 rounded-lg px-3 py-2 text-xs font-bold text-green-300" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);">→ С нашим эрготерапевтом — используют 9 из 10</div>
+      </div>
+
+      <div class="rounded-2xl p-6" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);">
+        <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-3">Среднее время оформления</div>
+        <div class="text-5xl font-black text-white leading-none"><span class="text-orange-400">2–4</span><br/>месяца</div>
+        <div class="text-white font-semibold text-sm mt-3 mb-1">уходит у семей на самостоятельное оформление ТСР</div>
+        <div class="flex items-center gap-1.5 mt-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+          <span class="text-blue-400 text-xs">С нашей поддержкой — 2–3 недели</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Миссия-блок -->
+    <div class="rounded-2xl p-6 sm:p-8 mb-10 text-center" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);">
+      <div class="text-3xl mb-4">🤝</div>
+      <p class="text-white font-bold text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
+        Наша миссия — помочь каждой семье получить то, что государство уже предусмотрело в законе №&nbsp;181-ФЗ «О&nbsp;социальной защите инвалидов в РФ»
+      </p>
+      <p class="text-blue-200 text-sm mt-3 max-w-xl mx-auto">
+        Правильно оформленная ИПРА — это ваш законный инструмент. Мы помогаем им пользоваться.
+      </p>
+    </div>
+
+    <!-- Три проблемы -->
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
+      <div class="rounded-2xl p-5 flex flex-col" style="background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25);">
+        <div class="text-2xl mb-3">📄</div>
+        <div class="font-black text-white text-base mb-2">ИПРА оформлена не полностью</div>
+        <div class="text-blue-200 text-sm leading-relaxed grow">Врачи МСЭ вписывают только очевидное. Вертикализатор, ортезы, средства ухода — остаются за бортом. Вы не получите то, о чём не попросили.</div>
+        <div class="mt-4 rounded-xl px-3 py-2 text-xs font-bold text-green-300" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);">→ Куратор найдёт пробелы за 15 минут — до подачи в МСЭ</div>
+      </div>
+      <div class="rounded-2xl p-5 flex flex-col" style="background: rgba(99,179,237,0.08); border: 1px solid rgba(99,179,237,0.2);">
+        <div class="text-2xl mb-3">⏱️</div>
+        <div class="font-black text-white text-base mb-2">Месяцы хождений по кабинетам</div>
+        <div class="text-blue-200 text-sm leading-relaxed grow">МСЭ, Госуслуги, СФР, возврат из-за ошибок, повторные визиты. Среднее время — 2–4 месяца нервов и звонков.</div>
+        <div class="mt-4 rounded-xl px-3 py-2 text-xs font-bold text-green-300" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);">→ С нами: 2–3 недели онлайн и без отказов</div>
+      </div>
+      <div class="rounded-2xl p-5 flex flex-col" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);">
+        <div class="text-2xl mb-3">🔄</div>
+        <div class="font-black text-white text-base mb-2">Одна ошибка — год ожидания</div>
+        <div class="text-blue-200 text-sm leading-relaxed grow">Неверный код ТСР в ИПРА — СФР отказывает. Переоформление через МСЭ занимает до года. Люди узнают об ошибке только после отказа.</div>
+        <div class="mt-4 rounded-xl px-3 py-2 text-xs font-bold text-green-300" style="background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);">→ Куратор проверит до подачи — 0 отказов за последний год</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+      <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+        class="btn-primary text-white font-bold px-10 py-4 rounded-xl text-lg orange-glow">
+        Проверить мою ИПРА бесплатно →
+      </button>
+      <div class="mt-3 text-sm text-blue-400">Диагностика занимает 3 минуты · Специалист ответит за 15 минут</div>
+    </div>
+
+  </div>
+</section>
+</section>
+
+<!-- ═══ ERGO — ПОЧЕМУ ЭРГОТЕРАПЕВТ ═══ -->
+<section class="py-16 px-4 bg-white border-b border-gray-100" id="ergo">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 text-xs font-bold text-purple-700 uppercase tracking-widest border border-purple-200 bg-purple-50 rounded-full px-4 py-1.5 mb-5">
+        <span>👩‍⚕️</span>
+        Наше главное отличие
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+        Почему сначала эрготерапевт,<br/>
+        <span class="text-purple-700">а потом покупка</span>
+      </h2>
+      <p class="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        4 из 5 сертификатов СФР не используются именно потому, что человек не знает <em>какую именно модель</em> взять. Купил «коляску» — а она не помещается в лифт, не держит спину, не подходит по росту.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 items-center mb-10">
+
+      <!-- Левая колонка: что делает эрготерапевт -->
+      <div class="rounded-3xl p-7 sm:p-8" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border: 1px solid #ddd6fe;">
+        <div class="text-sm font-bold text-purple-700 uppercase tracking-widest mb-4">Что делает эрготерапевт</div>
+        <div class="space-y-4">
+          <div class="flex gap-3">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-700 text-white text-sm font-bold flex items-center justify-center">1</div>
+            <div>
+              <div class="font-bold text-gray-900 text-base mb-1">Считает ваши параметры</div>
+              <div class="text-gray-600 text-sm leading-snug">Рост, вес, что вы можете делать сами, ваш диагноз, лифт в подъезде, ширина дверей дома.</div>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-700 text-white text-sm font-bold flex items-center justify-center">2</div>
+            <div>
+              <div class="font-bold text-gray-900 text-base mb-1">Называет точную модель и размер</div>
+              <div class="text-gray-600 text-sm leading-snug">Не «коляска», а «Кимба 2 размер с поддержкой головы». Не «вертикализатор», а «Экзостенд для детей до 130 см».</div>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-700 text-white text-sm font-bold flex items-center justify-center">3</div>
+            <div>
+              <div class="font-bold text-gray-900 text-base mb-1">Проверит вашу ИПРА на пробелы</div>
+              <div class="text-gray-600 text-sm leading-snug">Если в ИПРА не вписано то, что вам реально нужно — поможем дополнить без новой МСЭ.</div>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="flex-shrink-0 w-7 h-7 rounded-full bg-purple-700 text-white text-sm font-bold flex items-center justify-center">4</div>
+            <div>
+              <div class="font-bold text-gray-900 text-base mb-1">Настроит ТСР после доставки</div>
+              <div class="text-gray-600 text-sm leading-snug">Онлайн-консультация по видеосвязи — поможет правильно адаптировать коляску, ортез или вертикализатор.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Правая колонка: эксперт -->
+      <div>
+        <div class="rounded-3xl p-7 sm:p-8 bg-gradient-to-br from-gray-900 to-gray-700 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-40 h-40 rounded-full bg-purple-500 opacity-20 blur-3xl"></div>
+          <div class="relative">
+            <div class="text-xs font-bold text-purple-300 uppercase tracking-widest mb-3">Наш ведущий эрготерапевт</div>
+            <div class="flex items-center gap-4 mb-5">
+              <div class="w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center text-2xl font-black flex-shrink-0">ЮФ</div>
+              <div>
+                <div class="text-xl font-black">Юлия Фисенко</div>
+                <div class="text-purple-200 text-sm">Эрготерапевт · 350+ кейсов в месяц</div>
+              </div>
+            </div>
+            <p class="text-gray-200 text-sm leading-relaxed mb-5 italic">
+              «Лечащие врачи и реабилитологи не знают конструкцию ТСР. Они выписывают по диагнозу, а нужно — по конкретному человеку: рост, вес, что умеет, где живёт. Одна ошибка — и ребёнок год стоит в неправильном вертикализаторе, появляются деформации, операция.»
+            </p>
+            <div class="grid grid-cols-3 gap-3 pt-5 border-t border-white/20">
+              <div>
+                <div class="text-2xl font-black text-purple-300">350+</div>
+                <div class="text-xs text-gray-300 leading-tight mt-1">кейсов<br/>в месяц</div>
+              </div>
+              <div>
+                <div class="text-2xl font-black text-purple-300">75%</div>
+                <div class="text-xs text-gray-300 leading-tight mt-1">запросов<br/>про ДЦП</div>
+              </div>
+              <div>
+                <div class="text-2xl font-black text-purple-300">9 из 10</div>
+                <div class="text-xs text-gray-300 leading-tight mt-1">сертификатов<br/>используют</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-2xl p-5 bg-amber-50 border border-amber-200">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl flex-shrink-0">⚠️</span>
+            <div>
+              <div class="font-bold text-amber-900 text-sm mb-1">Без эрготерапевта — частые ошибки</div>
+              <div class="text-amber-800 text-sm leading-snug">Купили вертикализатор не того размера, коляску шире лифта, ходунки без ортезов под ноги. Возврат через сертификат невозможен — деньги «сгорают».</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center">
+      <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+        class="inline-flex items-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-colors">
+        <span>Записаться на консультацию эрготерапевта</span>
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div class="mt-3 text-sm text-gray-500">Консультация бесплатна · Подбор моделей и проверка ИПРА за 1 день</div>
+    </div>
+
+  </div>
+</section>
+<!-- /ERGO -->
+
+<!-- ═══ КВИЗ-ДИАГНОСТИКА ═══ -->
+<section id="quiz" class="py-16 px-4 bg-white">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <div class="tag bg-orange-100 text-orange-700 mb-3">Бесплатная диагностика · 3 минуты</div>
+      <h2 class="text-3xl font-black text-gray-900">Что вам положено — и что упущено в ИПРА?</h2>
+      <p class="text-gray-500 mt-2">4 вопроса — куратор найдёт пробелы и скажет что можно получить бесплатно от государства</p>
+    </div>
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-500" id="stepLabel">Шаг 1 из 4</span>
+        <span class="text-sm font-semibold text-orange-500" id="stepPct">20%</span>
+      </div>
+      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div class="progress-bar h-full bg-gradient-to-r from-orange-500 to-orange-400 rounded-full" id="progressBar" style="width:20%"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-8" id="quizCard">
+
+      <!-- ШАГ 1 — Кто -->
+      <div id="step1">
+        <div class="text-2xl font-black text-gray-900 mb-2">Кому нужна помощь?</div>
+        <div class="text-gray-500 mb-6">Выберите один вариант</div>
+        <div class="space-y-3">
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep1('child')">
+            <div class="text-3xl">👶</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Ребёнок с инвалидностью или ОВЗ</div>
+              <div class="text-sm text-gray-500">Я родитель или опекун ребёнка</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep1('relative')">
+            <div class="text-3xl">👨‍👩‍👧</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Взрослый родственник</div>
+              <div class="text-sm text-gray-500">Мама, папа, супруг/а или другой близкий человек</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep1('self')">
+            <div class="text-3xl">🧑</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Себе</div>
+              <div class="text-sm text-gray-500">Я взрослый человек с инвалидностью</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ШАГ 2 — Диагноз -->
+      <div id="step2" class="hidden">
+        <div class="text-2xl font-black text-gray-900 mb-2" id="step2Title">Какой основной диагноз?</div>
+        <div class="text-gray-500 mb-6">Выберите ближайший вариант</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="step2Options"></div>
+        <button onclick="prevStep(1)" class="mt-6 text-gray-400 text-sm hover:text-gray-600">← Назад</button>
+      </div>
+
+      <!-- ШАГ WOW — Потерянные деньги по диагнозу -->
+      <div id="stepWow" class="hidden slide-down">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <span class="text-3xl">🚨</span>
+          </div>
+          <div class="text-2xl font-black text-gray-900 mb-1" id="wowTitle">Важная цифра для вашей ситуации</div>
+          <div class="text-sm text-gray-500" id="wowSubtitle">По данным 1 247 кейсов наших клиентов</div>
+        </div>
+
+        <div class="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-2xl p-5 mb-4">
+          <div class="text-center mb-4">
+            <div class="text-xs font-bold text-red-600 uppercase tracking-wide mb-2">Семьи с этим диагнозом в среднем недополучают</div>
+            <div class="font-black text-red-600 mb-1 wow-amount" id="wowAmount">—</div>
+            <div class="text-sm text-red-500">в виде ТСР, которые положены по закону, но не вписаны в ИПРА</div>
+            <div class="mt-2 text-xs text-gray-400 italic">* Номинал сертификата СФР меняется ежеквартально и зависит от региона — точную сумму уточним на диагностике</div>
+          </div>
+          <div class="border-t border-red-200 pt-4">
+            <div class="text-xs font-bold text-red-800 mb-3">Что чаще всего упускают при этом диагнозе:</div>
+            <div class="space-y-2" id="wowItems"></div>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-5 flex items-start gap-3">
+          <div class="text-xl flex-shrink-0">📊</div>
+          <div>
+            <div class="font-semibold text-blue-900 text-sm mb-0.5">Статистика по нашим кейсам</div>
+            <div class="text-xs text-blue-700 leading-relaxed" id="wowStatText"></div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button onclick="proceedToGMFCS()"
+            class="btn-primary text-white font-bold px-8 py-4 rounded-xl text-base w-full sm:w-auto mb-2">
+            Узнать что именно у меня не вписано →
+          </button>
+          <div class="text-xs text-gray-400">Следующий шаг: уровень двигательных возможностей (2 минуты)</div>
+        </div>
+        <button onclick="goBackToStep2()" class="mt-4 text-gray-400 text-sm hover:text-gray-600">← Назад</button>
+      </div>
+
+      <!-- ШАГ 3 — GMFCS / Уровень мобильности -->
+      <div id="step3" class="hidden">
+        <div class="text-2xl font-black text-gray-900 mb-1" id="step3Title">Какой уровень двигательных возможностей?</div>
+        <div class="text-gray-500 text-sm mb-3" id="step3Subtitle">Это поможет точно определить какие ТСР положены по закону</div>
+        <div id="gmfcsBadge" class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1 mb-5 text-xs text-blue-700 font-semibold">
+          📊 GMFCS — международная классификация двигательных функций (ДЦП)
+        </div>
+        <div class="space-y-2" id="step3GMFCSOptions"></div>
+        <button onclick="prevStep(2)" class="mt-6 text-gray-400 text-sm hover:text-gray-600">← Назад</button>
+      </div>
+
+      <!-- ШАГ 4 — Статус ИПРА -->
+      <div id="step4" class="hidden">
+        <div class="text-2xl font-black text-gray-900 mb-2">Есть ли ИПРА?</div>
+        <div class="text-gray-500 mb-6">Индивидуальная программа реабилитации и абилитации</div>
+        <div class="space-y-3">
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep4('check')">
+            <div class="text-2xl">🔍</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Есть — хочу проверить что всё правильно</div>
+              <div class="text-sm text-gray-500">Боюсь что что-то важное не вписано</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep4('yes')">
+            <div class="text-2xl">✅</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Есть ИПРА — готов оформлять ТСР</div>
+              <div class="text-sm text-gray-500">Документ выдан в МСЭ бюро</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep4('no')">
+            <div class="text-2xl">📋</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Нет ИПРА — только предстоит оформить</div>
+              <div class="text-sm text-gray-500">Или только что установили инвалидность</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="option-card rounded-xl p-4 flex items-center gap-4" onclick="selectStep4('unknown')">
+            <div class="text-2xl">❓</div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">Не знаю что это</div>
+              <div class="text-sm text-gray-500">Разберёмся вместе с нуля</div>
+            </div>
+            <div class="option-check w-6 h-6 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+              <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+        </div>
+        <button onclick="prevStep(3)" class="mt-6 text-gray-400 text-sm hover:text-gray-600">← Назад</button>
+      </div>
+
+      <!-- РЕЗУЛЬТАТ -->
+      <div id="stepResult" class="hidden result-card">
+        <div class="text-center mb-5">
+          <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+            <svg class="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div class="text-2xl font-black text-gray-900" id="resultTitle">Диагностика завершена!</div>
+          <div class="text-sm text-gray-500 mt-1" id="resultSubtitle"></div>
+        </div>
+
+        <!-- Предупреждение о пробелах -->
+        <div id="gapWarning" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mb-5">
+          <div class="flex items-start gap-3">
+            <div class="text-2xl">⚠️</div>
+            <div class="flex-1">
+              <div class="font-bold text-red-900 mb-1">Вероятно, в вашей ИПРА есть пробелы</div>
+              <div class="text-sm text-red-700 leading-relaxed" id="gapText"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Маршрут -->
+        <div class="bg-blue-50 rounded-xl p-4 mb-5">
+          <div class="font-bold text-blue-900 mb-3">🗺️ Ваш персональный маршрут</div>
+          <div class="space-y-2" id="routeSteps"></div>
+        </div>
+
+        <!-- Калькулятор сертификата -->
+        <div class="bg-teal-50 border border-teal-200 rounded-xl p-4 mb-5">
+          <div class="font-bold text-teal-900 mb-3">💳 Сколько покроет государство?</div>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div>
+              <label class="text-xs font-semibold text-gray-600 block mb-1">Ваш регион</label>
+              <select id="calcRegion" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="">Выберите регион</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-600 block mb-1">Нужный ТСР</label>
+              <select id="calcTSR" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                <option value="">Выберите ТСР</option>
+              </select>
+            </div>
+          </div>
+          <button onclick="calcCert()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-lg text-sm transition-colors">
+            Рассчитать →
+          </button>
+          <div id="calcResult" class="hidden calc-result mt-3 p-3 bg-white rounded-lg border border-teal-200">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="text-xs text-gray-500">Сертификат СФР покроет</div>
+                <div class="text-2xl font-black text-teal-700" id="calcAmount">—</div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-gray-500">Ваша доплата</div>
+                <div class="text-2xl font-black text-orange-500" id="calcExtra">—</div>
+              </div>
+            </div>
+            <div class="text-xs text-gray-400 mt-2" id="calcNote"></div>
+          </div>
+        </div>
+
+        <!-- Каталог ТСР -->
+        <div class="mb-5">
+          <div class="font-bold text-gray-900 mb-3">🛒 Подходящие ТСР для вас</div>
+          <div class="space-y-3" id="tsrCatalog"></div>
+        </div>
+
+        <!-- CTA блок -->
+        <div class="border border-orange-200 rounded-xl p-5 bg-orange-50">
+          <div class="font-bold text-gray-900 mb-1">🤝 Куратор проверит вашу ИПРА</div>
+          <div class="text-sm text-gray-500 mb-4">Специалист свяжется за 15 минут — найдёт что не вписано и составит план получения ТСР</div>
+
+          <!-- Социальные кнопки -->
+          <a id="tgQuizLink" href="https://t.me/mobilita_help" target="_blank"
+            class="flex items-center justify-center gap-3 w-full bg-[#229ED9] hover:bg-[#1a8fc4] text-white font-bold py-3.5 rounded-xl text-sm mb-2 transition-colors">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.03 9.562c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.26 14.4 3.3 13.49c-.658-.207-.671-.658.136-.977l10.874-4.192c.55-.198 1.029.12.852.927z"/></svg>
+            Telegram
+          </a>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <a href="https://vk.com/mobilita" target="_blank"
+              class="flex items-center justify-center gap-2 bg-[#0077FF] hover:bg-[#0066dd] text-white font-bold py-3 rounded-xl text-sm transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.98 4 8.558c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.15-3.574 2.15-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.491-.085.745-.576.745z"/></svg>
+              ВКонтакте
+            </a>
+            <a href="https://max.ru/mobilita_help" target="_blank"
+              class="flex items-center justify-center gap-2 bg-[#FF5C00] hover:bg-[#e05200] text-white font-bold py-3 rounded-xl text-sm transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><text y="18" font-size="18" font-family="Arial" font-weight="bold">M</text></svg>
+              Макс
+            </a>
+          </div>
+
+          <div class="flex items-center gap-3 mb-3">
+            <div class="flex-1 h-px bg-gray-200"></div>
+            <span class="text-xs text-gray-400">или оставьте заявку</span>
+            <div class="flex-1 h-px bg-gray-200"></div>
+          </div>
+
+          <div class="space-y-3">
+            <input type="text" id="formName" placeholder="Ваше имя" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm bg-white" />
+            <input type="tel" id="formPhone" placeholder="7 900 000 00 00" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm bg-white" />
+            <input type="text" id="formHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <label class="flex items-start gap-2 text-xs text-gray-500 text-left">
+              <input type="checkbox" id="formConsent" class="mt-0.5 flex-shrink-0" />
+              <span>Согласен на обработку персональных данных и с <a href="/privacy.html" target="_blank" class="underline">политикой конфиденциальности</a></span>
+            </label>
+            <button onclick="submitForm()" class="btn-primary w-full text-white font-bold py-3 rounded-xl text-sm">
+              Перезвоните мне →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- СПАСИБО -->
+      <div id="stepThanks" class="hidden text-center py-8 result-card">
+        <div class="text-6xl mb-4">🎉</div>
+        <div class="text-2xl font-black text-gray-900 mb-2">Заявка принята!</div>
+        <div class="text-gray-500 mb-6">Куратор свяжется в течение 15 минут и начнёт работу с вашей ИПРА</div>
+        <div class="bg-blue-50 rounded-xl p-5 text-left mb-6">
+          <div class="font-semibold text-blue-900 mb-2">Пока ждёте — посмотрите вебинар:</div>
+          <div class="text-sm text-blue-700">«Как получить ТСР по ИПРА бесплатно» — 45 минут</div>
+          <button onclick="document.getElementById('webinar').scrollIntoView({behavior:'smooth'})"
+            class="mt-3 btn-primary text-white text-sm font-semibold px-5 py-2 rounded-lg">
+            Смотреть вебинар →
+          </button>
+        </div>
+        <button onclick="resetQuiz()" class="text-gray-400 text-sm hover:text-gray-600 underline">Пройти ещё раз</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ КАК МЫ СОПРОВОЖДАЕМ ═══ -->
+<section id="how" class="py-16 px-4 bg-[#FFF8F5]">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <div class="tag bg-blue-100 text-blue-700 mb-3">Полное сопровождение</div>
+      <h2 class="text-3xl font-black text-gray-900">Вы получаете ТСР —<br class="hidden sm:block"/> мы делаем всё остальное</h2>
+      <p class="text-gray-500 mt-2 max-w-xl mx-auto">Не разовая консультация — реальное сопровождение от звонка до доставки ТСР к двери</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <!-- Шаг 1 -->
+      <div class="bg-orange-50 border border-orange-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-orange-500 text-white font-black flex items-center justify-center flex-shrink-0">1</div>
+          <div class="font-black text-gray-900">📋 Диагностика</div>
+        </div>
+        <div class="text-sm text-gray-500">Квиз 3 минуты — понимаем вашу ситуацию</div>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="bg-red-50 border border-red-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-red-500 text-white font-black flex items-center justify-center flex-shrink-0">2</div>
+          <div class="font-black text-gray-900">🔍 Анализ ИПРА</div>
+        </div>
+        <div class="text-sm text-gray-500">Находим что не вписано, но положено по диагнозу</div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="bg-purple-50 border border-purple-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-purple-600 text-white font-black flex items-center justify-center flex-shrink-0">3</div>
+          <div class="font-black text-gray-900">📝 Корректируем ИПРА</div>
+        </div>
+        <div class="text-sm text-gray-500">Готовим документы и сопровождаем на МСЭ для внесения изменений</div>
+      </div>
+
+      <!-- Шаг 4 -->
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-blue-600 text-white font-black flex items-center justify-center flex-shrink-0">4</div>
+          <div class="font-black text-gray-900">🗺️ Личный маршрут</div>
+        </div>
+        <div class="text-sm text-gray-500">Пошаговый план что делать, куда идти, что говорить</div>
+      </div>
+
+      <!-- Шаг 5 -->
+      <div class="bg-teal-50 border border-teal-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-teal-600 text-white font-black flex items-center justify-center flex-shrink-0">5</div>
+          <div class="font-black text-gray-900">💳 Сертификат СФР</div>
+        </div>
+        <div class="text-sm text-gray-500">Помогаем оформить электронный сертификат через Госуслуги</div>
+      </div>
+
+      <!-- Шаг 6 -->
+      <div class="bg-green-50 border border-green-200 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-full bg-green-600 text-white font-black flex items-center justify-center flex-shrink-0">6</div>
+          <div class="font-black text-gray-900">🎁 Получаете ТСР</div>
+        </div>
+        <div class="text-sm text-gray-500">Подбираем нужное изделие, доставляем по всей России</div>
+      </div>
+
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 gap-4">
+      <div class="bg-green-50 rounded-2xl border border-green-200 p-6 text-center">
+        <div class="text-gray-500 text-sm mb-1">С куратором</div>
+        <div class="text-4xl font-black text-green-600">2–3 недели</div>
+        <div class="text-gray-400 text-sm mt-1">от звонка до ТСР у двери</div>
+      </div>
+      <div class="bg-red-50 rounded-2xl border border-red-200 p-6 text-center">
+        <div class="text-gray-500 text-sm mb-1">Самостоятельно</div>
+        <div class="text-4xl font-black text-red-500">4–6 месяцев</div>
+        <div class="text-gray-400 text-sm mt-1">и часто без результата</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ КЕЙСЫ ═══ -->
+<section id="cases" class="py-16 bg-[#FFF8F5] overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <div class="tag bg-green-100 text-green-700 mb-3">Реальные истории</div>
+      <h2 class="text-3xl font-black text-gray-900">Они были в вашей ситуации</h2>
+      <p class="text-gray-500 mt-2">В каждом случае находили что-то важное — чего не вписали врачи на МСЭ</p>
+    </div>
+
+    <!-- Карусель -->
+    <div class="relative">
+      <!-- Стрелки -->
+      <button onclick="casesPrev()" id="casesBtnPrev"
+        class="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 w-11 h-11 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button onclick="casesNext()" id="casesBtnNext"
+        class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 w-11 h-11 rounded-full bg-white shadow-lg border border-gray-200 items-center justify-center text-gray-600 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Трек -->
+      <div id="casesTrack"
+        class="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory"
+        style="scrollbar-width:none; -ms-overflow-style:none;"
+        onscroll="updateCasesCounter()">
+
+        <!-- 1. Игорь, Москва — расширили ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-xl flex-shrink-0">👨</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Игорь, Москва · 35 лет</div>
+              <div class="text-xs text-gray-500">Травма шейного отдела</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Жена на работе, дома один. В ИПРА — одна комнатная коляска. Выехать некуда.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Добавили: <strong>электроколяска, прогулочная, вертикализатор, матрас</strong>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">772 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатил</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Год сидел взаперти — электроколяска была положена бесплатно»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-red-100 text-red-700">Электроколяска</span>
+            <span class="tag bg-blue-100 text-blue-700">Вертикализатор</span>
+            <span class="tag bg-gray-100 text-gray-600">+2 ТСР</span>
+          </div>
+        </div>
+
+        <!-- 2. Наталья, Москва — первая ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-xl flex-shrink-0">👩</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Наталья, Москва · 52 года</div>
+              <div class="text-xs text-gray-500">Рассеянный склероз, парапарез</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 mb-3">Первая ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Только поставили диагноз, первый раз на МСЭ. Вписали трость. Я не знала, что можно больше — перестала выходить из дома.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            <strong>4 позиции не вписаны</strong>: ходунки-роллаторы, коляска, ортезы, матрас
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">168 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Год сидела дома. Ходунки и коляска были положены с первого дня»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-teal-100 text-teal-700">Ходунки + ортезы</span>
+            <span class="tag bg-blue-100 text-blue-700">Коляска</span>
+          </div>
+        </div>
+
+        <!-- 3. Анна, Москва — переделали ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-xl flex-shrink-0">👩</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Анна, Москва</div>
+              <div class="text-xs text-gray-500">Сын с ДЦП тетраплегия, 8 лет</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Максим съезжает в коляске набок — голову не держит. В ИПРА 8 лет стояла стандартная «как всем».</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Неверная категория + <strong>5 позиций не вписаны</strong>: спецколяска, вертикализатор, опоры, ортезы
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">491 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«8 лет в неправильной коляске. Переоформили — разница огромная»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-purple-100 text-purple-700">Спецколяска</span>
+            <span class="tag bg-blue-100 text-blue-700">Вертикализатор</span>
+            <span class="tag bg-gray-100 text-gray-600">+3 ТСР</span>
+          </div>
+        </div>
+
+        <!-- 4. Сергей, Москва — переделали ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-xl flex-shrink-0">🧑</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Сергей, Москва · 31 год</div>
+              <div class="text-xs text-gray-500">Ампутация обоих бёдер после ДТП</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Дали один протез. С одним при двусторонней ампутации бёдер не ходят — нарушен баланс.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            <strong>3 ошибки</strong>: один протез вместо двух, категория занижена, коляска не вписана
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">620 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатил</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Куратор добился двух протезов нужной категории. Я хожу, вернулся к работе»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-orange-100 text-orange-700">2 протеза бедра</span>
+            <span class="tag bg-blue-100 text-blue-700">Коляска</span>
+          </div>
+        </div>
+
+        <!-- 5. Мария, Краснодарский край — первая ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-xl flex-shrink-0">👩</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Мария, Краснодарский край</div>
+              <div class="text-xs text-gray-500">Дочь с ДЦП диплегия, 6 лет</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 mb-3">Первая ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Живём в посёлке — грунтовка. Обычная коляска застревала через 50 метров. Соня не выезжала со двора.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Стандартная без учёта условий. <strong>Не вписаны</strong>: вертикализатор, спецходунки для ДЦП, ортезы
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">289 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Соня теперь ездит к соседям по щебню. Для нас это весь мир»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-blue-100 text-blue-700">Коляска (под бездорожье)</span>
+            <span class="tag bg-indigo-100 text-indigo-700">Вертикализатор</span>
+          </div>
+        </div>
+
+        <!-- 6. Александр, Ростов — переделали ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-xl flex-shrink-0">👨</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Александр, Ростов-на-Дону · 58 лет</div>
+              <div class="text-xs text-gray-500">После инсульта, гемиплегия</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Подали в СФР сами — отказ из-за «несоответствия кода». Ещё год ждали переоформления через МСЭ.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Один неверный код — отказ СФР. Куратор нашёл <strong>до подачи</strong>, исправил + добавил ортез и матрас
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">228 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатил</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Год потерян из-за одной цифры. Куратор нашёл за 10 минут — сертификат через 9 дней»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-orange-100 text-orange-700">Коляска (верный код)</span>
+            <span class="tag bg-red-100 text-red-700">Ортез при дроп-фут</span>
+          </div>
+        </div>
+
+        <!-- 7. Елена, Новосибирск — переделали ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-xl flex-shrink-0">👩</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Елена, Новосибирск</div>
+              <div class="text-xs text-gray-500">Сын со СМА тип 2, 4 года</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">МСЭ трижды отказал: «вертикализатор не положен». Арендовали сами — 8 000 ₽ в месяц весь год.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            В ИПРА только коляска. По норме для СМА 2 добавили <strong>вертикализатор + 3 ТСР</strong>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">391 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«96 000 ₽ аренды зря — вертикализатор был положен бесплатно»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-teal-100 text-teal-700">Вертикализатор</span>
+            <span class="tag bg-blue-100 text-blue-700">Опора для лежания</span>
+            <span class="tag bg-gray-100 text-gray-600">+2 ТСР</span>
+          </div>
+        </div>
+
+        <!-- 8. Татьяна, Екатеринбург — первая ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-xl flex-shrink-0">👶</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Татьяна, Екатеринбург</div>
+              <div class="text-xs text-gray-500">Сын с ДЦП атетоидная форма, 3 года</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 mb-3">Первая ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Артёму 3 года, первая ИПРА. Упал из коляски через неделю — выдали стандартную, без фиксации при атетозе.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Неверная категория — нет абдуктора и подголовника. <strong>Правильная ИПРА</strong>: спецколяска + вертикализатор
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">342 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«При атетозе другой код. Артём впервые сидит ровно и не падает»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-pink-100 text-pink-700">Спецколяска при атетозе</span>
+            <span class="tag bg-blue-100 text-blue-700">Вертикализатор</span>
+          </div>
+        </div>
+
+        <!-- 9. Дмитрий, Самара — первая ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-xl flex-shrink-0">👨</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Дмитрий, Самара · 62 года</div>
+              <div class="text-xs text-gray-500">Инсульт + ампутация голени</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 mb-3">Первая ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Первая группа — сразу два диагноза. МСЭ дали костыли. Левая рука парализована — держать костыль невозможно.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            Костыли без учёта парализованной руки. <strong>Вписали</strong>: протез голени, коляска, ортез, обувь
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">265 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатил</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Никто в МСЭ не подумал, что парализованной рукой не держат костыль»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-indigo-100 text-indigo-700">Протез голени</span>
+            <span class="tag bg-orange-100 text-orange-700">Ортез + коляска</span>
+          </div>
+        </div>
+
+        <!-- 10. Ольга, Казань — переделали ИПРА -->
+        <div class="case-card flex-shrink-0 w-[290px] sm:w-[300px] bg-white rounded-2xl p-5 shadow-sm snap-start">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-xl flex-shrink-0">👩</div>
+            <div>
+              <div class="font-bold text-gray-900 text-sm">Ольга, Казань</div>
+              <div class="text-xs text-gray-500">Дочь с ДЦП диплегия, 10 лет</div>
+            </div>
+          </div>
+          <span class="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 mb-3">Переделали ИПРА</span>
+          <p class="text-sm text-gray-700 mb-3">Алина 2 года занималась с ходунками из ИПРА — прогресса нет. Оказалось, код был не тот.</p>
+          <div class="bg-red-50 border border-red-100 rounded-xl p-2.5 mb-3 text-xs text-red-800">
+            06-10-01 (обычные) вместо 06-10-06 (для ДЦП). <strong>Исправили + добавили</strong> вертикализатор и ортезы
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Получено ТСР</div>
+              <div class="font-black text-gray-900 text-sm">328 000 ₽</div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-2 text-center">
+              <div class="text-xs text-gray-500">Заплатила</div>
+              <div class="font-black text-green-600 text-sm">0 ₽</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 italic mb-3">«Поменяли код за один визит. Через 3 месяца — первые шаги самостоятельно»</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="tag bg-green-100 text-green-700">Спецходунки (верный код)</span>
+            <span class="tag bg-blue-100 text-blue-700">Вертикализатор</span>
+          </div>
+        </div>
+
+      </div><!-- /casesTrack -->
+
+      <!-- Скрыть нативный скроллбар -->
+      <style>#casesTrack::-webkit-scrollbar{display:none}</style>
+    </div>
+
+    <!-- Счётчик и точки -->
+    <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between mt-6">
+      <div class="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-2xl px-4 sm:px-5 py-2.5 max-w-full">
+        <span class="text-green-600 font-black text-lg whitespace-nowrap">1 247</span>
+        <span class="text-green-700 font-semibold text-sm">семей уже получили ТСР</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-gray-400" id="casesCounter">1 / 10</span>
+        <div class="flex gap-1.5" id="casesDots">
+          <!-- точки рендерятся через JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ КАЛЬКУЛЯТОР СЕРТИФИКАТА ═══ -->
+<section id="calculator" class="py-16 px-4 bg-teal-50">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-8">
+      <div class="tag bg-teal-100 text-teal-700 mb-3">💳 Калькулятор сертификата СФР</div>
+      <h2 class="text-3xl font-black text-gray-900">Сколько государство даст на ваш ТСР?</h2>
+      <p class="text-gray-500 mt-2">Выберите регион и тип ТСР — покажем сумму электронного сертификата СФР</p>
+      <div id="calcDataBadge" class="mt-3 inline-flex items-center gap-2 calc-status">
+        <span class="data-badge bg-gray-100 text-gray-400">
+          <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+          Загрузка данных из СФР...
+        </span>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8">
+      <div class="grid sm:grid-cols-2 gap-4 mb-5">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">📍 Ваш регион</label>
+          <select id="standaloneRegion" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-white" onchange="updateStandaloneCalc()">
+            <option value="">Выберите регион</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">🦽 Тип ТСР</label>
+          <select id="standaloneTSR" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-white" onchange="updateStandaloneCalc()">
+            <option value="">Выберите ТСР</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Результат (скрыт по умолчанию) -->
+      <div id="standaloneResult" class="hidden">
+        <div class="bg-gradient-to-r from-teal-50 to-blue-50 border border-teal-200 rounded-xl p-5 mb-4">
+          <div class="text-center">
+            <div class="text-xs text-gray-500 mb-1 uppercase tracking-wide">Сертификат СФР покроет</div>
+            <div class="text-4xl sm:text-5xl font-black text-teal-700 mb-1 whitespace-nowrap" id="standaloneAmount">—</div>
+            <div class="text-sm text-gray-500" id="standaloneNote"></div>
+          </div>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+          <div class="text-xs font-semibold text-amber-800 mb-1">⚠️ Важно знать</div>
+          <div class="text-xs text-amber-700 leading-relaxed">
+            Сертификат выдаётся только если ТСР <strong>правильно вписан в ИПРА</strong> с нужными техническими характеристиками.
+            Ошибка в ИПРА = отказ СФР. Куратор проверяет ИПРА перед подачей.
+          </div>
+        </div>
+        <div class="text-center">
+          <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+            class="btn-primary text-white font-bold px-8 py-4 rounded-xl text-base">
+            Проверить мою ИПРА бесплатно →
+          </button>
+        </div>
+      </div>
+
+      <!-- Пустое состояние -->
+      <div id="standaloneEmpty" class="text-center py-4">
+        <div class="text-gray-300 text-4xl mb-2">💳</div>
+        <div class="text-gray-400 text-sm">Выберите регион и ТСР чтобы узнать сумму</div>
+        <div class="text-xs text-gray-300 mt-1" id="standaloneDataNote">Данные: ktsr.sfr.gov.ru</div>
+      </div>
+    </div>
+
+    <!-- Пояснение -->
+    <div class="mt-6 grid sm:grid-cols-3 gap-4">
+      <div class="text-center p-4 bg-gray-50 rounded-xl">
+        <div class="text-2xl mb-1">🏛️</div>
+        <div class="text-xs font-semibold text-gray-700">Источник данных</div>
+        <div class="text-xs text-gray-500 mt-0.5">Официальный сайт СФР — ktsr.sfr.gov.ru</div>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-xl">
+        <div class="text-2xl mb-1">📅</div>
+        <div class="text-xs font-semibold text-gray-700">Актуальность</div>
+        <div class="text-xs text-gray-500 mt-0.5">Данные обновляются ежеквартально</div>
+      </div>
+      <div class="text-center p-4 bg-gray-50 rounded-xl">
+        <div class="text-2xl mb-1">⚡</div>
+        <div class="text-xs font-semibold text-gray-700">Важно</div>
+        <div class="text-xs text-gray-500 mt-0.5">Сумма зависит от правильного оформления ИПРА</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ С НУЛЯ: ПЕРВЫЕ 5 ШАГОВ ═══ -->
+<section id="novice" class="py-16 px-4" style="background: linear-gradient(135deg, #0F2347 0%, #1B3A6B 60%, #154360 100%);">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 mb-5">
+        <span class="text-base">🌱</span>
+        <span class="text-blue-200 text-sm font-semibold">Для тех, кто только начинает</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-white mb-3">С нуля — первые 5 шагов</h2>
+      <p class="text-blue-200 max-w-xl mx-auto text-base leading-snug">Только что установили инвалидность? Вот точная последовательность — что делать, в каком порядке и почему это критично</p>
+    </div>
+
+    <div class="space-y-3">
+
+      <!-- Шаг 1 -->
+      <div class="novice-step flex gap-5 bg-white/10 rounded-2xl p-5 border border-white/10">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-orange-500 flex items-center justify-center font-black text-xl text-white shadow-lg">1</div>
+        </div>
+        <div class="flex-1">
+          <div class="font-black text-white text-lg mb-1">Получите справку МСЭ и убедитесь что группа установлена</div>
+          <div class="text-blue-200 text-sm leading-relaxed">Если инвалидность только что установлена — на руках должна быть справка МСЭ с указанием группы. Это основа для ИПРА и всех льгот. Без справки — ни ИПРА, ни сертификат, ни ТСР.</div>
+          <div class="mt-2 inline-flex items-center gap-1.5 bg-orange-500/20 border border-orange-400/30 rounded-full px-3 py-1 text-xs text-orange-300 font-semibold">
+            ⏱️ Сразу после МСЭ
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="novice-step flex gap-5 bg-white/10 rounded-2xl p-5 border border-white/10">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-red-500 flex items-center justify-center font-black text-xl text-white shadow-lg">2</div>
+        </div>
+        <div class="flex-1">
+          <div class="font-black text-white text-lg mb-1">Получите ИПРА — и сразу проверьте её состав</div>
+          <div class="text-blue-200 text-sm leading-relaxed">ИПРА оформляется в том же МСЭ бюро. В ней должны быть вписаны <strong class="text-white">все ТСР, положенные по вашему диагнозу</strong>. Именно здесь 60% семей теряют льготы — врачи вписывают не всё. Они вписывают только то, о чём их попросят — а вы не знаете что просить.</div>
+          <div class="mt-2 inline-flex items-center gap-1.5 bg-red-500/20 border border-red-400/30 rounded-full px-3 py-1 text-xs text-red-300 font-semibold">
+            ⚠️ Критичный шаг — от этого зависит всё
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="novice-step flex gap-5 bg-white/10 rounded-2xl p-5 border border-white/10">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500 flex items-center justify-center font-black text-xl text-white shadow-lg">3</div>
+        </div>
+        <div class="flex-1">
+          <div class="font-black text-white text-lg mb-1">Оформите электронный сертификат СФР через Госуслуги</div>
+          <div class="text-blue-200 text-sm leading-relaxed">Подаётся заявление на сертификат — это деньги государства под конкретный ТСР из ИПРА. Коляска, вертикализатор, протез — суммы зависят от региона и ТСР. Средства зачисляются на виртуальный счёт в СФР.</div>
+          <div class="mt-2 inline-flex items-center gap-1.5 bg-purple-500/20 border border-purple-400/30 rounded-full px-3 py-1 text-xs text-purple-300 font-semibold">
+            ⏱️ Срок оформления: 7–14 дней
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 4 -->
+      <div class="novice-step flex gap-5 bg-white/10 rounded-2xl p-5 border border-white/10">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500 flex items-center justify-center font-black text-xl text-white shadow-lg">4</div>
+        </div>
+        <div class="flex-1">
+          <div class="font-black text-white text-lg mb-1">Выберите ТСР у авторизованного партнёра СФР</div>
+          <div class="text-blue-200 text-sm leading-relaxed">Сертификат СФР принимается только в магазинах из реестра. Куратор поможет выбрать модель точно под диагноз и характеристики из ИПРА — и подскажет, где её приобрести.</div>
+          <div class="mt-2 inline-flex items-center gap-1.5 bg-teal-500/20 border border-teal-400/30 rounded-full px-3 py-1 text-xs text-teal-300 font-semibold">
+            ✓ Работаем только с авторизованными партнёрами СФР
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 5 -->
+      <div class="novice-step flex gap-5 rounded-2xl p-5 border border-orange-400/40" style="background: rgba(255,107,43,0.15)">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-orange-500 flex items-center justify-center font-black text-xl text-white shadow-lg">5</div>
+        </div>
+        <div class="flex-1">
+          <div class="font-black text-white text-lg mb-1">Получите ТСР и сразу проверьте ИПРА ещё раз</div>
+          <div class="text-blue-200 text-sm leading-relaxed">ТСР доставляется по всей России. После получения — пересмотрите ИПРА: часть позиций могла быть упущена при первом оформлении. Расширить ИПРА можно, обратившись повторно в МСЭ. Куратор подскажет что именно просить.</div>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+              class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition-colors orange-glow">
+              Проверить мою ИПРА →
+            </button>
+            <button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})"
+              class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors border border-white/20">
+              💳 Узнать сумму сертификата
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Совет куратора -->
+    <div class="mt-8 bg-white/5 border border-white/10 rounded-2xl p-6 flex gap-4 items-start">
+      <div class="text-3xl flex-shrink-0">💡</div>
+      <div>
+        <div class="font-bold text-white mb-1">Самая частая ошибка новичков</div>
+        <div class="text-blue-200 text-sm leading-relaxed">Получить ИПРА «как дали» — без проверки состава. Врачи МСЭ не обязаны вписывать всё что положено, они пишут то о чём их просят. Куратор знает точный список ТСР по каждому диагнозу и добивается правильной записи в ИПРА с первого визита. Это бесплатно.</div>
+        <button onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})"
+          class="mt-3 inline-flex items-center gap-1 text-orange-400 hover:text-orange-300 font-semibold text-sm">
+          Получить бесплатную консультацию
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ ВЕБИНАР ═══ -->
+<section id="webinar" class="py-16 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="tag bg-orange-100 text-orange-700 mb-4">🎥 Бесплатный вебинар</div>
+        <h2 class="text-3xl font-black text-gray-900 mb-4">Как получить ТСР по ИПРА — полный разбор</h2>
+        <p class="text-gray-500 mb-6">45 минут. Всё объясняем простым языком без бюрократии</p>
+        <div class="space-y-3 mb-8">
+          <div class="flex items-center gap-3 text-gray-700"><div class="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>Как читать ИПРА и находить пробелы самостоятельно</div>
+          <div class="flex items-center gap-3 text-gray-700"><div class="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>Как добавить ТСР в ИПРА через МСЭ</div>
+          <div class="flex items-center gap-3 text-gray-700"><div class="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>Как работает электронный сертификат СФР</div>
+          <div class="flex items-center gap-3 text-gray-700"><div class="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>5 ошибок из-за которых люди теряют льготы</div>
+        </div>
+        <div class="bg-[#FFF8F5] border border-orange-100 rounded-xl p-5">
+          <div class="text-gray-900 font-semibold mb-3">Смотреть запись бесплатно →</div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="tel" id="webinarPhone" placeholder="7 900 000 00 00"
+              class="flex-1 bg-white border border-gray-200 text-gray-900 placeholder-gray-400 rounded-lg px-4 py-3 text-sm" />
+            <input type="text" id="webinarHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button onclick="submitWebinar()" class="btn-primary text-white font-semibold px-5 py-3 rounded-lg whitespace-nowrap">Смотреть →</button>
+          </div>
+          <label class="flex items-start gap-2 text-xs text-gray-500 mt-3">
+            <input type="checkbox" id="webinarConsent" class="mt-0.5 flex-shrink-0" />
+            <span>Согласен на обработку персональных данных и с <a href="/privacy.html" target="_blank" class="underline">политикой конфиденциальности</a></span>
+          </label>
+          <div id="webinarSuccess" class="hidden mt-3 text-green-600 text-sm font-semibold">✓ Ссылка отправлена!</div>
+        </div>
+      </div>
+      <div>
+        <div class="rounded-2xl overflow-hidden bg-[#0D1F3C] border border-gray-200 aspect-video flex items-center justify-center relative shadow-lg">
+          <div class="text-center" id="videoPlaceholder">
+            <!-- Декоративная кнопка плей (без клика и без ссылки на видео) -->
+            <div class="w-20 h-20 rounded-full bg-orange-500 flex items-center justify-center mx-auto mb-4 orange-glow" aria-hidden="true">
+              <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="text-white font-semibold">Как получить ТСР по ИПРА</div>
+            <div class="text-blue-300 text-sm mt-1">45 минут • Бесплатно</div>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-6 mt-4">
+          <div class="text-center"><div class="text-xl font-black text-gray-900">4.9 ★</div><div class="text-xs text-gray-400">оценка</div></div>
+          <div class="w-px h-8 bg-gray-200"></div>
+          <div class="text-center"><div class="text-xl font-black text-gray-900">2 400+</div><div class="text-xs text-gray-400">просмотров</div></div>
+          <div class="w-px h-8 bg-gray-200"></div>
+          <div class="text-center"><div class="text-xl font-black text-gray-900">45 мин</div><div class="text-xs text-gray-400">длительность</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="py-16 px-4 bg-white">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="tag bg-gray-100 text-gray-600 mb-3">Частые вопросы</div>
+      <h2 class="text-3xl font-black text-gray-900">Всё что вас беспокоит</h2>
+    </div>
+    <div class="space-y-3">
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Кто такой куратор? Это живой человек или бот?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Живой специалист. Куратор — это человек со знанием законодательства о ТСР, ИПРА, работе МСЭ и СФР. Один куратор ведёт вашу семью от первого обращения до получения ТСР — знает вашу ситуацию, отвечает в Telegram, не передаёт другим. Никаких скриптов и ботов.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Вы будете пытаться мне что-то продать?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Нет давления. Куратор поможет разобраться с ИПРА, оформить сертификат СФР и найти подходящий ТСР — независимо от того, где вы его купите. Наша задача — чтобы вы получили то, что положено по закону. Это честная модель.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Это точно бесплатно? В чём подвох?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Никакого подвоха. Сопровождение, проверка ИПРА, консультации — бесплатно. Фонд <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a> помогает семьям получить то, что положено по закону №181-ФЗ. Вы ни к чему не обязаны.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Можно ли изменить ИПРА если она уже есть?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Да — это один из главных мифов. ИПРА можно менять. Для этого нужно подать заявление в бюро МСЭ, пройти переосвидетельствование. Наш куратор готовит документы и сопровождает вас на этом этапе. Многие семьи добавляют 2-3 ТСР именно так.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Я из небольшого города — вы работаете по всей России?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Да. Все консультации онлайн — Telegram, ВКонтакте, телефон или видеозвонок. Доставка ТСР — по всей России включая отдалённые регионы.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          А вдруг СФР откажет в сертификате?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Отказ бывает если ТСР не прописан в ИПРА или неправильно указаны характеристики. Наш куратор проверяет ИПРА до подачи заявления и помогает исправить ошибки. Мы сопровождаем до получения сертификата.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Сколько времени занимает весь процесс?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          Если ИПРА правильно заполнена: сертификат СФР — 7-14 дней, доставка ТСР — 3-7 дней. Итого 2-3 недели. Если нужно внести изменения в ИПРА — добавьте 1-2 месяца на МСЭ. Без нас — в среднем 4-6 месяцев.
+        </div>
+      </details>
+
+      <details class="faq-item bg-gray-50 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between p-5 font-semibold text-gray-900">
+          Что такое ИПРА и где её получить?
+          <span class="faq-icon text-gray-400 text-xl font-light ml-4">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-gray-600 text-sm leading-relaxed">
+          ИПРА — Индивидуальная программа реабилитации и абилитации. Выдаётся в бюро МСЭ при установлении инвалидности. Если есть группа инвалидности — ИПРА уже есть. Наш куратор поможет разобраться что в ней написано и что не дописано.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ КОНСУЛЬТАЦИЯ ═══ -->
+<section id="consult" class="py-16 px-4 bg-[#FFF8F5]">
+  <div class="max-w-xl mx-auto text-center">
+    <div class="tag bg-teal-100 text-teal-700 mb-4">Бесплатно · Онлайн · 15 минут</div>
+    <h2 class="text-3xl font-black text-gray-900 mb-3">Узнайте что вам положено бесплатно</h2>
+    <p class="text-gray-500 mb-2">Куратор проверит ИПРА, найдёт упущенные ТСР и составит пошаговый план — за 15 минут</p>
+    <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-2 mb-8">
+      <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+      <span class="text-amber-800 text-sm font-semibold" id="slotsText">Куратор ответит сегодня до 20:00</span>
+    </div>
+    <div class="bg-white rounded-2xl shadow-lg p-8 text-left">
+      <div class="space-y-4">
+        <div>
+          <label class="text-sm font-semibold text-gray-700 block mb-1">Ваше имя</label>
+          <input type="text" id="consultName" placeholder="Иван Иванов" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-semibold text-gray-700 block mb-1">Номер телефона</label>
+          <input type="tel" id="consultContact" placeholder="7 900 000 00 00" class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm" />
+        </div>
+        <input type="text" id="consultHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="flex items-start gap-2 text-xs text-gray-500">
+          <input type="checkbox" id="consultConsent" class="mt-0.5 flex-shrink-0" />
+          <span>Согласен на обработку персональных данных и с <a href="/privacy.html" target="_blank" class="underline">политикой конфиденциальности</a></span>
+        </label>
+        <button onclick="submitConsult()" class="btn-primary w-full text-white font-bold py-4 rounded-xl text-base">
+          Хочу чтобы куратор проверил мою ИПРА →
+        </button>
+        <div id="consultSuccess" class="hidden text-center text-green-600 font-semibold">✓ Заявка принята! Куратор свяжется в течение 15 минут</div>
+        <p class="text-xs text-gray-400 text-center">ответим в течение 15 минут · Работаем 9:00–20:00</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ФУТЕР ═══ -->
+<footer class="bg-gray-900 py-10 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-xl gradient-card flex items-center justify-center"><span class="text-white font-black text-lg">M</span></div>
+          <div class="font-black text-white text-lg">Mobilita</div>
+        </div>
+        <div class="text-gray-400 text-sm">Платформа полного сопровождения от ИПРА до ТСР. Совместно с фондом <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a>.</div>
+        <div class="text-gray-500 text-xs mt-3">НКО · Работаем по всей России</div>
+      </div>
+      <div>
+        <div class="text-white font-semibold mb-4">Полезно</div>
+        <div class="space-y-2">
+          <a href="#how" class="text-gray-400 hover:text-orange-400 text-sm block transition-colors">Как мы сопровождаем</a>
+          <a href="#quiz" class="text-gray-400 hover:text-orange-400 text-sm block transition-colors">Бесплатная диагностика</a>
+          <a href="#cases" class="text-gray-400 hover:text-orange-400 text-sm block transition-colors">Истории клиентов</a>
+          <a href="#webinar" class="text-gray-400 hover:text-orange-400 text-sm block transition-colors">Вебинар по ИПРА</a>
+          <a href="#faq" class="text-gray-400 hover:text-orange-400 text-sm block transition-colors">Частые вопросы</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-white font-semibold mb-4">Написать куратору</div>
+        <div class="space-y-2 text-sm text-gray-400">
+          <div><a href="https://t.me/mobilita_help" class="text-orange-400 hover:underline">Telegram: @mobilita_help</a></div>
+          <div><a href="https://vk.com/mobilita" class="text-orange-400 hover:underline">ВКонтакте: vk.com/mobilita</a></div>
+          <div><a href="#" class="text-orange-400 hover:underline">Макс: @mobilita</a></div>
+        </div>
+        <div class="mt-4 text-xs text-gray-600">Фонд <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a> · Работаем по всей России</div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+      <div class="text-gray-600 text-xs">© 2026 Mobilita + Фонд <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a>. Все права защищены.</div>
+      <div class="flex gap-4">
+        <a href="/privacy.html" class="text-gray-600 hover:text-gray-400 text-xs">Политика конфиденциальности</a>
+        <a href="/privacy.html" class="text-gray-600 hover:text-gray-400 text-xs">Согласие на обработку данных</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ ПЛАВАЮЩИЕ КНОПКИ СОЦСЕТЕЙ ═══ -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
+  <a href="https://t.me/mobilita_help" target="_blank" class="tg-fab"
+    style="display:flex;align-items:center;gap:10px;background:#229ED9;color:white;font-weight:700;font-size:15px;padding:13px 20px;border-radius:50px;box-shadow:0 8px 30px rgba(34,158,217,0.5);text-decoration:none;transition:all 0.2s;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.03 9.562c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.26 14.4 3.3 13.49c-.658-.207-.671-.658.136-.977l10.874-4.192c.55-.198 1.029.12.852.927z"/></svg>
+    <span class="tg-label">Telegram</span>
+  </a>
+  <a href="https://vk.com/mobilita" target="_blank" class="float-social"
+    style="display:flex;align-items:center;gap:10px;background:#0077FF;color:white;font-weight:700;font-size:15px;padding:13px 20px;border-radius:50px;box-shadow:0 8px 30px rgba(0,119,255,0.4);text-decoration:none;transition:all 0.2s;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.98 4 8.558c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.15-3.574 2.15-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.491-.085.745-.576.745z"/></svg>
+    <span class="tg-label">ВКонтакте</span>
+  </a>
+  <a href="https://max.ru/mobilita_help" target="_blank" class="float-social"
+    style="display:flex;align-items:center;gap:10px;background:#FF5C00;color:white;font-weight:700;font-size:15px;padding:13px 20px;border-radius:50px;box-shadow:0 8px 30px rgba(255,92,0,0.4);text-decoration:none;transition:all 0.2s;">
+    <span style="font-size:18px;font-weight:900;line-height:1;">M</span>
+    <span class="tg-label">Макс</span>
+  </a>
+</div>
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+  // Ответы квиза храним в localStorage: восстанавливаются и прикрепляются к заявке
+  const QUIZ_KEY = 'iprahelp_quiz';
+  function loadQuiz() {
+    const base = { who: null, diagnosis: null, gmfcsLevel: null, ipra: null };
+    try { return Object.assign(base, JSON.parse(localStorage.getItem(QUIZ_KEY) || '{}')); }
+    catch (e) { return base; }
+  }
+  const quizData = new Proxy(loadQuiz(), {
+    set(t, k, v) { t[k] = v; try { localStorage.setItem(QUIZ_KEY, JSON.stringify(t)); } catch (e) {} return true; }
+  });
+
+  // ═══ БАЗА GMFCS — ТСР по уровням ═══
+  const gmfcsLevels = {
+    child: [
+      {
+        level: 1, label: 'GMFCS I',
+        title: 'Ходит самостоятельно',
+        desc: 'Ходит дома и на улице без ограничений. Может подниматься по лестнице. Трудности при беге, прыжках на неровной поверхности.',
+        examples: ['✅ Сам ходит в школу, во двор, к соседям', '⚡ Сложно бегать и прыгать на физкультуре', '⚡ Устаёт быстрее на неровной дороге или в гору'],
+        svg: `<svg viewBox="0 0 48 64" class="w-10 h-14 mx-auto">
+          <circle cx="24" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="24" y1="15" x2="24" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="24" y1="28" x2="10" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="28" x2="38" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="14" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="34" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'green',
+        tsr: [
+          { code:'09-01-01', name:'Ортопедическая обувь', gap:false, note:'Положена при нарушении походки' },
+          { code:'08-09-43', name:'Ортез голеностопный (AFO)', gap:true, note:'⚠️ Часто не вписывают, хотя положен при ДЦП I уровня' },
+        ]
+      },
+      {
+        level: 2, label: 'GMFCS II',
+        title: 'Ходит с ограничениями',
+        desc: 'Ходит дома и на улице, но сложнее на неровной поверхности и лестницах. Может держаться за перила.',
+        examples: ['✅ Ходит дома и во дворе', '⚡ На лестнице нужны перила или чья-то рука', '⚡ На длинных прогулках нужна опора или трость'],
+        svg: `<svg viewBox="0 0 48 64" class="w-10 h-14 mx-auto">
+          <circle cx="24" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="24" y1="15" x2="24" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="10" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="36" y2="34" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="36" y1="34" x2="40" y2="58" stroke="#1B3A6B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="14" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="30" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'blue',
+        tsr: [
+          { code:'09-01-01', name:'Ортопедическая обувь', gap:false, note:'' },
+          { code:'08-09-43', name:'Ортезы (AFO)', gap:false, note:'' },
+          { code:'06-01-01', name:'Трость', gap:false, note:'' },
+          { code:'06-10-01', name:'Ходунки', gap:true, note:'⚠️ При необходимости — часто не вписывают' },
+        ]
+      },
+      {
+        level: 3, label: 'GMFCS III',
+        title: 'Ходит с ходунками или костылями',
+        desc: 'Использует ходунки или костыли. На длинные расстояния и на улице нужна коляска. В помещении может держаться за мебель.',
+        examples: ['🦯 Дома — держится за мебель или ходунки', '🦽 На улицу и в школу — нужна коляска', '❌ На лестницу самому не подняться'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="24" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="24" y1="15" x2="24" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="8" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="8" y1="22" x2="5" y2="58" stroke="#FF6B2B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="40" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="40" y1="22" x2="43" y2="58" stroke="#FF6B2B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="16" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="32" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'orange',
+        tsr: [
+          { code:'06-10-06', name:'Ходунки для ДЦП (с поддержкой тела)', gap:true, note:'⚠️ Специальные ходунки для ДЦП часто не вписывают — вписывают обычные' },
+          { code:'07-02-01', name:'Коляска прогулочная', gap:false, note:'' },
+          { code:'06-09-01', name:'Вертикализатор', gap:true, note:'⚠️ Положен, вписывают в 30% случаев. Критичен для профилактики деформаций.' },
+          { code:'08-09-43', name:'Ортезы', gap:false, note:'' },
+          { code:'09-01-01', name:'Ортопедическая обувь', gap:false, note:'' },
+        ]
+      },
+      {
+        level: 4, label: 'GMFCS IV',
+        title: 'Коляска, может стоять с поддержкой',
+        desc: 'В основном в коляске. Может стоять у опоры, делать несколько шагов при поддержке. Нужна помощь при переносе.',
+        examples: ['🦽 Весь день в коляске', '🤝 Постоять у стены — только с чужой помощью', '👐 Пересадку и перенос выполняют взрослые'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="22" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="22" y1="15" x2="20" y2="36" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="20" y1="24" x2="8" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="20" y1="24" x2="36" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <rect x="10" y="34" width="28" height="16" rx="4" fill="none" stroke="#FF6B2B" stroke-width="2.5"/>
+          <circle cx="14" cy="55" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <circle cx="34" cy="55" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+        </svg>`,
+        color: 'red',
+        tsr: [
+          { code:'07-01-02', name:'Коляска с фиксацией головы и тела (ДЦП)', gap:false, note:'Спецколяска для ДЦП IV уровня' },
+          { code:'06-09-01', name:'Вертикализатор', gap:true, note:'⚠️ ОБЯЗАТЕЛЕН для профилактики сколиоза и контрактур. Вписывают только в 20% случаев!' },
+          { code:'06-07-01', name:'Опора для сидения', gap:true, note:'⚠️ Почти никогда не вписывают, хотя необходима' },
+          { code:'08-09-43', name:'Ортезы', gap:false, note:'' },
+          { code:'06-10-06', name:'Ходунки с поддержкой тела', gap:true, note:'⚠️ Нужны для терапевтической ходьбы — часто упускают' },
+        ]
+      },
+      {
+        level: 5, label: 'GMFCS V',
+        title: 'Полная зависимость от коляски',
+        desc: 'Передвигается только в коляске с поддержкой головы и тела. Не может самостоятельно изменить положение.',
+        examples: ['🦽 Только в спецколяске с фиксацией тела и головы', '🤝 Не может сам изменить положение тела', '👐 Нужна помощь в любом перемещении'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="20" cy="10" r="7" fill="#1B3A6B"/>
+          <path d="M10 18 Q20 15 30 18 L28 36 Q20 38 12 36 Z" fill="#1B3A6B" opacity="0.3" stroke="#1B3A6B" stroke-width="1.5"/>
+          <rect x="8" y="32" width="30" height="18" rx="5" fill="none" stroke="#FF6B2B" stroke-width="2.5"/>
+          <circle cx="13" cy="56" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <circle cx="33" cy="56" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <line x1="38" y1="32" x2="55" y2="20" stroke="#1B3A6B" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'purple',
+        tsr: [
+          { code:'07-01-02', name:'Коляска с фиксацией головы и тела', gap:false, note:'' },
+          { code:'06-09-01', name:'Вертикализатор', gap:true, note:'⚠️ Критически важен — но вписывается в единицах случаев' },
+          { code:'06-08-01', name:'Опора для лежания', gap:true, note:'⚠️ Почти никогда не вписывают' },
+          { code:'06-07-01', name:'Опора для сидения', gap:true, note:'⚠️ Необходима, упускают почти всегда' },
+          { code:'10-01-01', name:'Матрас противопролежневый', gap:true, note:'⚠️ Положен, часто не вписывают' },
+          { code:'08-09-43', name:'Ортезы', gap:false, note:'' },
+        ]
+      },
+    ],
+    adult: [
+      {
+        level: 1, label: 'Уровень А',
+        title: 'Ходит самостоятельно',
+        desc: 'Передвигается без вспомогательных средств. Возможна лёгкая хромота, слабость или боль при длительной ходьбе.',
+        examples: ['✅ Ходит в магазин и к врачу своим ходом', '⚡ Иногда хромота или боль при долгой ходьбе', '⚡ Труднее на крутой лестнице или неровной дороге'],
+        svg: `<svg viewBox="0 0 48 64" class="w-10 h-14 mx-auto">
+          <circle cx="24" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="24" y1="15" x2="24" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="24" y1="28" x2="10" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="28" x2="38" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="14" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="34" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'green',
+        tsr: [
+          { code:'09-01-01', name:'Ортопедическая обувь', gap:true, note:'⚠️ Часто не вписывают после инсульта/травмы' },
+          { code:'08-09-43', name:'Ортез голеностопный или коленный', gap:true, note:'⚠️ Положен при слабости стопы или нестабильности сустава' },
+        ]
+      },
+      {
+        level: 2, label: 'Уровень Б',
+        title: 'Ходит с тростью или костылями',
+        desc: 'Использует трость или костыли. Самостоятельно ходит в помещении и на короткие расстояния на улице.',
+        examples: ['🦯 Ходит с тростью или костылём', '✅ Самостоятельно, но медленнее обычного', '⚡ На длинные маршруты — уже с трудом или никак'],
+        svg: `<svg viewBox="0 0 56 64" class="w-10 h-14 mx-auto">
+          <circle cx="22" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="22" y1="15" x2="22" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="10" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="38" y2="30" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="38" y1="30" x2="42" y2="58" stroke="#FF6B2B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="40" x2="14" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="22" y1="40" x2="28" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'blue',
+        tsr: [
+          { code:'06-01-01', name:'Трость', gap:false, note:'' },
+          { code:'06-04-01', name:'Костыли с опорой под локоть', gap:false, note:'' },
+          { code:'08-09-43', name:'Ортез', gap:true, note:'⚠️ Часто не вписывают' },
+          { code:'09-01-01', name:'Ортопедическая обувь', gap:false, note:'' },
+        ]
+      },
+      {
+        level: 3, label: 'Уровень В',
+        title: 'Ходит с ходунками',
+        desc: 'Использует ходунки. На длинные расстояния нужна коляска. Самостоятельно в помещении с ходунками.',
+        examples: ['🦯 Дома передвигается с ходунками', '🦽 В магазин и к врачу — только на коляске', '❌ Самому на лестницу — невозможно'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="24" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="24" y1="15" x2="24" y2="40" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="8" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="8" y1="22" x2="5" y2="58" stroke="#FF6B2B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="24" y1="26" x2="40" y2="22" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="40" y1="22" x2="43" y2="58" stroke="#FF6B2B" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="5" y1="38" x2="43" y2="38" stroke="#FF6B2B" stroke-width="2" stroke-dasharray="3,2"/>
+          <line x1="24" y1="40" x2="16" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="24" y1="40" x2="32" y2="58" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'orange',
+        tsr: [
+          { code:'06-10-05', name:'Ходунки-роллаторы', gap:false, note:'' },
+          { code:'07-02-01', name:'Коляска прогулочная', gap:true, note:'⚠️ Часто не вписывают, хотя нужна для дальних расстояний' },
+          { code:'08-09-43', name:'Ортез', gap:true, note:'⚠️ При дроп-фут или нестабильности — часто упускают' },
+        ]
+      },
+      {
+        level: 4, label: 'Уровень Г',
+        title: 'В основном в коляске',
+        desc: 'Передвигается в коляске. Может делать несколько шагов при поддержке.',
+        examples: ['🦽 Большую часть дня — в коляске', '⚡ Несколько шагов возможны, но только с поддержкой', '🤝 Пересадку помогают делать другие'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="22" cy="8" r="7" fill="#1B3A6B"/>
+          <line x1="22" y1="15" x2="20" y2="36" stroke="#1B3A6B" stroke-width="4" stroke-linecap="round"/>
+          <line x1="20" y1="24" x2="8" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="20" y1="24" x2="36" y2="20" stroke="#1B3A6B" stroke-width="3.5" stroke-linecap="round"/>
+          <rect x="10" y="34" width="28" height="16" rx="4" fill="none" stroke="#FF6B2B" stroke-width="2.5"/>
+          <circle cx="14" cy="55" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <circle cx="34" cy="55" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+        </svg>`,
+        color: 'red',
+        tsr: [
+          { code:'07-01-01', name:'Коляска комнатная', gap:false, note:'' },
+          { code:'07-02-01', name:'Коляска прогулочная', gap:true, note:'⚠️ Часто вписывают только одну — положены обе' },
+          { code:'08-09-43', name:'Ортез', gap:false, note:'' },
+          { code:'10-01-01', name:'Матрас противопролежневый', gap:true, note:'⚠️ Положен, часто не вписывают' },
+        ]
+      },
+      {
+        level: 5, label: 'Уровень Д',
+        title: 'Полностью в коляске',
+        desc: 'Все передвижения только в коляске. Нужна помощь при переносе. Длительное нахождение в одном положении.',
+        examples: ['🦽 Все передвижения только в коляске', '🤝 Нужна помощь при любом перемещении', '⚡ Долго в одном положении — риск пролежней'],
+        svg: `<svg viewBox="0 0 64 64" class="w-10 h-14 mx-auto">
+          <circle cx="20" cy="10" r="7" fill="#1B3A6B"/>
+          <path d="M10 18 Q20 15 30 18 L28 36 Q20 38 12 36 Z" fill="#1B3A6B" opacity="0.3" stroke="#1B3A6B" stroke-width="1.5"/>
+          <rect x="8" y="32" width="30" height="18" rx="5" fill="none" stroke="#FF6B2B" stroke-width="2.5"/>
+          <circle cx="13" cy="56" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <circle cx="33" cy="56" r="5" fill="none" stroke="#FF6B2B" stroke-width="2"/>
+          <line x1="38" y1="32" x2="55" y2="20" stroke="#1B3A6B" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>`,
+        color: 'purple',
+        tsr: [
+          { code:'07-01-01', name:'Коляска комнатная', gap:false, note:'' },
+          { code:'07-02-01', name:'Коляска прогулочная', gap:false, note:'' },
+          { code:'07-03-01', name:'Коляска активного типа', gap:true, note:'⚠️ При достаточной силе рук — часто не вписывают' },
+          { code:'10-01-01', name:'Матрас противопролежневый', gap:true, note:'⚠️ Обязателен при полной зависимости — пропускают в 50% случаев' },
+          { code:'08-09-43', name:'Ортезы', gap:true, note:'⚠️ Нужны для профилактики контрактур' },
+        ]
+      },
+    ]
+  };
+
+  // Имена ТСР для отображения
+  const tsrNames = {
+    '07-01-01': 'Коляска комнатная',
+    '07-01-02': 'Коляска с фиксацией головы/тела (ДЦП)',
+    '07-02-01': 'Коляска прогулочная',
+    '07-02-02': 'Коляска прогулочная с фиксацией (ДЦП)',
+    '07-03-01': 'Коляска активного типа',
+    '07-04-01': 'Коляска с электроприводом',
+    '06-01-01': 'Трость опорная',
+    '06-04-01': 'Костыли с опорой под локоть',
+    '06-09-01': 'Вертикализатор (опора для стояния)',
+    '06-07-01': 'Опора для сидения',
+    '06-08-01': 'Опора для лежания',
+    '06-10-01': 'Ходунки шагающие',
+    '06-10-05': 'Ходунки-роллаторы',
+    '06-10-06': 'Ходунки для ДЦП (с фиксацией тела)',
+    '08-09-43': 'Ортез на нижние конечности',
+    '09-01-01': 'Ортопедическая обувь',
+    '10-01-01': 'Матрас противопролежневый',
+  };
+
+  const colorMap = {
+    green:  { bg:'bg-green-50',  border:'border-green-300',  dot:'bg-green-500',  badge:'bg-green-100 text-green-800' },
+    blue:   { bg:'bg-blue-50',   border:'border-blue-300',   dot:'bg-blue-500',   badge:'bg-blue-100 text-blue-800' },
+    orange: { bg:'bg-orange-50', border:'border-orange-300', dot:'bg-orange-500', badge:'bg-orange-100 text-orange-800' },
+    red:    { bg:'bg-red-50',    border:'border-red-300',    dot:'bg-red-500',    badge:'bg-red-100 text-red-800' },
+    purple: { bg:'bg-purple-50', border:'border-purple-300', dot:'bg-purple-500', badge:'bg-purple-100 text-purple-800' },
+  };
+
+
+  const step2OptionsChild = [
+    { id:'dcp',          emoji:'🧠', title:'ДЦП',                    desc:'Детский церебральный паралич' },
+    { id:'sma',          emoji:'💪', title:'СМА',                    desc:'Спинальная мышечная атрофия' },
+    { id:'neuro',        emoji:'⚡', title:'Неврология / аутизм',    desc:'Задержка развития, РАС' },
+    { id:'trauma_child', emoji:'🦴', title:'Ортопедия / травма',     desc:'Переломы, врождённые патологии' },
+  ];
+  const step2OptionsAdult = [
+    { id:'stroke',       emoji:'🫀', title:'Инсульт / ОНМК',        desc:'После инсульта, реабилитация' },
+    { id:'amputation',   emoji:'🦿', title:'Ампутация',             desc:'Конечность или её часть' },
+    { id:'spine',        emoji:'🦴', title:'Травма позвоночника',   desc:'СМТ, ДТП, ТБСМ' },
+    { id:'other_adult',  emoji:'♿', title:'Другое',                desc:'Артрит, рассеянный склероз, пр.' },
+  ];
+
+  const routes = {
+    check: [
+      { text:'🔍 Куратор проверяет вашу ИПРА на пробелы' },
+      { text:'📝 Если найдены пробелы — готовим документы для МСЭ' },
+      { text:'🏛️ Подаём заявление на внесение изменений в ИПРА' },
+      { text:'💳 Оформляем сертификат СФР на нужные ТСР' },
+      { text:'🎁 Получаете ТСР — доставим по всей России' },
+    ],
+    yes: [
+      { text:'✅ ИПРА есть — куратор проверит что всё правильно вписано' },
+      { text:'💳 Оформляем электронный сертификат в СФР через Госуслуги' },
+      { text:'🛒 Куратор поможет подобрать ТСР у авторизованного партнёра СФР' },
+      { text:'🎁 Получаете ТСР с доставкой по всей России' },
+    ],
+    no: [
+      { text:'📋 Получаете направление на МСЭ у лечащего врача' },
+      { text:'🏛️ Проходите медико-социальную экспертизу (МСЭ)' },
+      { text:'📝 Куратор помогает добиться нужных позиций в ИПРА' },
+      { text:'💳 Оформляем сертификат СФР — получаете ТСР' },
+    ],
+    unknown: [
+      { text:'🎯 Разберёмся с нуля — объясним простым языком' },
+      { text:'📺 Посмотрите вебинар по ИПРА — 45 минут, всё станет ясно' },
+      { text:'🤝 Куратор составит персональный план действий' },
+      { text:'🎁 Сопроводим до получения ТСР — бесплатно' },
+    ]
+  };
+
+  function updateProgress(step) {
+    const pcts = {1:20,2:40,3:60,4:80,5:100};
+    document.getElementById('progressBar').style.width = pcts[step] + '%';
+    document.getElementById('stepLabel').textContent = `Шаг ${step} из 5`;
+    document.getElementById('stepPct').textContent = pcts[step] + '%';
+    document.getElementById('stepLabel').textContent = step === 5 ? 'Готово!' : `Шаг ${step} из 4`;
+  }
+
+  function renderOptions(containerId, options, onSelect) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    options.forEach(opt => {
+      const div = document.createElement('div');
+      div.className = 'option-card rounded-xl p-4 flex flex-col gap-1';
+      div.innerHTML = `<div class="text-2xl">${opt.emoji}</div>
+        <div class="font-semibold text-gray-900 text-sm">${opt.title}</div>
+        <div class="text-xs text-gray-500">${opt.desc}</div>
+        <div class="option-check w-5 h-5 rounded-full bg-orange-500 items-center justify-center mt-1">
+          <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        </div>`;
+      div.onclick = () => onSelect(opt.id, div);
+      container.appendChild(div);
+    });
+  }
+
+  function selectStep1(who) {
+    quizData.who = who;
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+    updateProgress(2);
+    const isChild = (who === 'child');
+    const opts = isChild ? step2OptionsChild : step2OptionsAdult;
+    document.getElementById('step2Title').textContent = isChild ? 'Какой диагноз у ребёнка?' : 'Что произошло / какое нарушение?';
+    renderOptions('step2Options', opts, (id) => {
+      quizData.diagnosis = id;
+      showWowMoment(id); // Показываем "wow момент" перед GMFCS
+    });
+  }
+
+  function renderGMFCS() {
+    const isChild = (quizData.who === 'child');
+    const levels = isChild ? gmfcsLevels.child : gmfcsLevels.adult;
+
+    // Заголовок и бейдж
+    document.getElementById('step3Title').textContent = 'Выберите описание которое лучше всего подходит';
+    document.getElementById('step3Subtitle').textContent = 'Это поможет точно определить какие ТСР положены по закону';
+    document.getElementById('gmfcsBadge').style.display = 'none';
+
+    const container = document.getElementById('step3GMFCSOptions');
+    container.innerHTML = '';
+
+    levels.forEach(lvl => {
+      const c = colorMap[lvl.color];
+      // Считаем пробелы
+      const gapCount = lvl.tsr.filter(t => t.gap).length;
+      const gapBadge = gapCount > 0
+        ? `<span class="ml-2 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg px-2 py-0.5">⚠️ ${gapCount} вероятных пробела в ИПРА</span>`
+        : '';
+
+      const div = document.createElement('div');
+      div.className = `option-card rounded-xl p-4 cursor-pointer border-2 transition-all`;
+      div.innerHTML = `
+        <div class="flex items-center gap-4">
+          <div class="${c.bg} border ${c.border} rounded-xl p-3 flex-shrink-0 w-20 text-center">
+            ${lvl.svg}
+            <div class="text-xs font-bold mt-1 ${lvl.color === 'green' ? 'text-green-700' : lvl.color === 'blue' ? 'text-blue-700' : lvl.color === 'orange' ? 'text-orange-700' : lvl.color === 'red' ? 'text-red-700' : 'text-purple-700'}">${lvl.label}</div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="font-black text-gray-900 text-base">${lvl.title}</div>
+            <div class="mt-1.5 space-y-0.5">${(lvl.examples||[]).map(e => '<div class="text-xs text-gray-600 leading-snug">'+e+'</div>').join('')}</div>
+            <div class="mt-1.5 flex flex-wrap gap-1">
+              ${lvl.tsr.slice(0,3).map(t =>
+                `<span class="text-xs px-2.5 py-1 rounded-lg leading-snug ${t.gap ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-gray-100 text-gray-600'}">${t.gap ? '⚠️ ' : ''}${t.name}</span>`
+              ).join('')}
+              ${lvl.tsr.length > 3 ? `<span class="text-xs text-gray-400">+${lvl.tsr.length - 3} ещё</span>` : ''}
+            </div>
+          </div>
+          <div class="option-check w-7 h-7 rounded-full bg-orange-500 items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+          </div>
+        </div>`;
+      div.onclick = () => selectGMFCS(lvl.level);
+      container.appendChild(div);
+    });
+  }
+
+  function selectGMFCS(level) {
+    quizData.gmfcsLevel = level;
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById('step4').classList.remove('hidden');
+    updateProgress(4);
+  }
+
+  function selectStep4(ipra) {
+    quizData.ipra = ipra;
+    showResult(ipra);
+  }
+
+  function showResult(ipra) {
+    document.getElementById('step4').classList.add('hidden');
+    document.getElementById('stepResult').classList.remove('hidden');
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('stepLabel').textContent = 'Готово!';
+    document.getElementById('stepPct').textContent = '100%';
+
+    const titles = {
+      check: 'Вот что вероятно упущено в вашей ИПРА',
+      yes: 'Отлично! Вы в шаге от получения ТСР',
+      no: 'Всё решаемо — вот ваш маршрут',
+      unknown: 'Разберёмся вместе — это проще чем кажется'
+    };
+    const subtitles = {
+      check: 'По уровню GMFCS нашли ТСР которые часто не вписывают',
+      yes: 'Куратор проверит документы и сопроводит до получения ТСР',
+      no: 'Помогаем оформить ИПРА с нужными позициями',
+      unknown: 'Объясним с нуля и возьмём на сопровождение'
+    };
+    document.getElementById('resultTitle').textContent = titles[ipra];
+    document.getElementById('resultSubtitle').textContent = subtitles[ipra];
+
+    // ТСР по уровню GMFCS
+    const isChild = (quizData.who === 'child');
+    const levels = isChild ? gmfcsLevels.child : gmfcsLevels.adult;
+    const lvlData = levels.find(l => l.level === quizData.gmfcsLevel);
+
+    if (lvlData) {
+      // Пробелы в ИПРА
+      const gaps = lvlData.tsr.filter(t => t.gap);
+      if (gaps.length > 0) {
+        const gapEl = document.getElementById('gapWarning');
+        const gapTitleEl = gapEl.querySelector('.font-bold');
+        gapEl.classList.remove('hidden');
+        if (ipra === 'no' || ipra === 'unknown') {
+          gapTitleEl.textContent = 'Убедитесь что эти ТСР будут вписаны в ИПРА';
+          gapEl.classList.remove('bg-red-50','border-red-200');
+          gapEl.classList.add('bg-amber-50','border-amber-200');
+          gapTitleEl.classList.remove('text-red-900');
+          gapTitleEl.classList.add('text-amber-900');
+        } else {
+          gapTitleEl.textContent = 'Вероятно, в вашей ИПРА есть пробелы';
+        }
+        document.getElementById('gapText').innerHTML = gaps
+          .map(t => `• <strong>${t.name}</strong>${t.note ? ' — ' + t.note : ''}`)
+          .join('<br/>');
+      }
+
+      // Каталог ТСР по GMFCS
+      const catalog = document.getElementById('tsrCatalog');
+      catalog.innerHTML = `
+        <div class="bg-gray-50 rounded-xl p-4 mb-3">
+          <div class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
+            Полный список ТСР для ${lvlData.label} — ${lvlData.title}
+          </div>
+          <div class="space-y-2">
+            ${lvlData.tsr.map(t => `
+              <div class="flex items-start gap-2 py-2 border-b border-gray-100 last:border-0">
+                <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center ${t.gap ? 'bg-red-100' : 'bg-green-100'}">
+                  <span class="text-xs">${t.gap ? '⚠' : '✓'}</span>
+                </div>
+                <div class="tsr-body">
+                  <div class="tsr-text">
+                    <div class="text-sm font-semibold text-gray-900">${t.name}</div>
+                    ${t.note ? `<div class="text-xs text-red-600 mt-0.5">${t.note}</div>` : ''}
+                  </div>
+                  <span class="tsr-badge text-xs px-2 py-0.5 rounded-full font-semibold ${t.gap ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}">${t.gap ? 'часто упускают' : 'обычно вписывают'}</span>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="text-xs text-gray-400">Куратор поможет подобрать конкретные модели и размеры по вашей ИПРА</p>
+        </div>`;
+    }
+
+    // Маршрут
+    document.getElementById('routeSteps').innerHTML = routes[ipra].map((s,i) =>
+      `<div class="flex items-start gap-3">
+        <div class="w-6 h-6 rounded-full bg-blue-200 text-blue-900 font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">${i+1}</div>
+        <div class="text-sm text-blue-900">${s.text}</div>
+      </div>`
+    ).join('');
+
+    // Динамическая Telegram ссылка с контекстом
+    const whoLabel = {child:'ребёнок',relative:'взрослый родственник',self:'я взрослый'}[quizData.who] || '';
+    const lvlLabel = lvlData ? lvlData.label : '';
+    const ipraLabel = {check:'есть ИПРА (проверить)',yes:'есть ИПРА (оформлять)',no:'нет ИПРА',unknown:'не знаю'}[ipra] || '';
+    const tgMsg = encodeURIComponent(`Привет! Прошёл диагностику на сайте. ${whoLabel}${lvlLabel ? ', ' + lvlLabel : ''}, ИПРА: ${ipraLabel}. Хочу консультацию.`);
+    const tgLink = document.getElementById('tgQuizLink');
+    if (tgLink) tgLink.href = `https://t.me/mobilita_help?text=${tgMsg}`;
+
+    // Пред-заполняем TSR в калькуляторе по GMFCS уровню
+    if (lvlData && lvlData.tsr.length > 0) {
+      const primaryTsr = lvlData.tsr[0].code;
+      const calcTsrEl = document.getElementById('calcTSR');
+      if (calcTsrEl) {
+        for (let opt of calcTsrEl.options) {
+          if (opt.value && primaryTsr.startsWith(opt.value.split('-')[0] + '-' + opt.value.split('-')[1])) {
+            opt.selected = true; break;
+          }
+        }
+      }
+    }
+  }
+
+  function prevStep(goTo) {
+    ['step1','step2','stepWow','step3','step4','stepResult'].forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.classList.add('hidden');
+    });
+    document.getElementById('step' + goTo).classList.remove('hidden');
+    updateProgress(goTo);
+  }
+
+  function goBackToStep2() {
+    ['stepWow','step3','step4','stepResult'].forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.classList.add('hidden');
+    });
+    document.getElementById('step2').classList.remove('hidden');
+    updateProgress(2);
+  }
+
+  // ═══ Лиды: контекст (UTM + источник) и отправка на бекенд ═══
+  const LEAD_CTX = (function () {
+    try {
+      const saved = sessionStorage.getItem('lead_ctx');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    const p = new URLSearchParams(location.search);
+    const ctx = {
+      utm_source:   p.get('utm_source'),
+      utm_medium:   p.get('utm_medium'),
+      utm_campaign: p.get('utm_campaign'),
+      utm_term:     p.get('utm_term'),
+      utm_content:  p.get('utm_content'),
+      referrer:     document.referrer || null,
+      page_url:     location.origin + location.pathname,
+    };
+    try { sessionStorage.setItem('lead_ctx', JSON.stringify(ctx)); } catch (e) {}
+    return ctx;
+  })();
+
+  async function sendLead(payload, hpId) {
+    const body = Object.assign({}, LEAD_CTX, payload);
+    const hp = hpId ? document.getElementById(hpId) : null;
+    if (hp) body.company = hp.value; // honeypot: у людей пусто
+    const res = await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  // ── Телефон: маска «7 *** *** ** **» + нормализация ──
+  function phoneDigits(v) {
+    let d = (v || '').replace(/\D/g, '');
+    if (d[0] === '8') d = '7' + d.slice(1);
+    return d;
+  }
+  function formatPhone(v) {
+    let d = phoneDigits(v);
+    if (d[0] !== '7') d = '7' + d;
+    d = d.slice(0, 11);
+    const p = d.slice(1);
+    let out = '7';
+    if (p.length)     out += ' ' + p.slice(0, 3);
+    if (p.length > 3) out += ' ' + p.slice(3, 6);
+    if (p.length > 6) out += ' ' + p.slice(6, 8);
+    if (p.length > 8) out += ' ' + p.slice(8, 10);
+    return out;
+  }
+  function isValidPhone(v) { return phoneDigits(v).length === 11; }
+  function attachPhoneMask(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.type = 'tel';
+    el.setAttribute('inputmode', 'numeric');
+    el.placeholder = '7 900 000 00 00';
+    el.addEventListener('focus', () => { if (!el.value) el.value = '7 '; });
+    el.addEventListener('input', () => { el.value = formatPhone(el.value); });
+  }
+  ['formPhone', 'webinarPhone', 'consultContact'].forEach(attachPhoneMask);
+
+  // После отправки заявки чистим сохранённые ПДн (квиз + контекст) с устройства
+  function clearLeadData() {
+    try { localStorage.removeItem('iprahelp_quiz'); sessionStorage.removeItem('lead_ctx'); } catch (e) {}
+  }
+
+  // ── Инлайн-ошибки полей (красная подсветка вместо alert) ──
+  function showErr(target, msg) {
+    let m = target.nextElementSibling;
+    if (!m || !m.classList || !m.classList.contains('err-msg')) {
+      m = document.createElement('p');
+      m.className = 'err-msg text-xs text-red-500 mt-1';
+      target.insertAdjacentElement('afterend', m);
+    }
+    m.textContent = msg;
+  }
+  function clearErr(target) {
+    target.classList.remove('input-error', 'consent-error');
+    const m = target.nextElementSibling;
+    if (m && m.classList && m.classList.contains('err-msg')) m.remove();
+  }
+  function fieldError(el, msg) {
+    el.classList.add('input-error');
+    showErr(el, msg);
+    const c = () => { clearErr(el); el.removeEventListener('input', c); };
+    el.addEventListener('input', c);
+  }
+  function consentError(box, msg) {
+    const label = box.closest('label');
+    label.classList.add('consent-error');
+    showErr(label, msg);
+    const c = () => { clearErr(label); box.removeEventListener('change', c); };
+    box.addEventListener('change', c);
+  }
+  function clearFormErrors(els) {
+    els.forEach(el => clearErr(el.type === 'checkbox' ? el.closest('label') : el));
+  }
+
+  async function submitForm() {
+    const phoneEl = document.getElementById('formPhone');
+    const consentEl = document.getElementById('formConsent');
+    clearFormErrors([phoneEl, consentEl]);
+    if (!isValidPhone(phoneEl.value)) { fieldError(phoneEl, 'Введите номер телефона полностью'); return; }
+    if (!consentEl.checked) { consentError(consentEl, 'Нужно согласие на обработку данных'); return; }
+    try {
+      await sendLead({ form_type: 'quiz', name: document.getElementById('formName').value.trim(), contact: phoneEl.value.trim(), consent: true, quiz_data: { ...quizData } }, 'formHp');
+      document.getElementById('stepResult').classList.add('hidden');
+      document.getElementById('stepThanks').classList.remove('hidden');
+      updateSlots();
+      clearLeadData();
+    } catch (e) {
+      console.error(e);
+      fieldError(phoneEl, 'Не удалось отправить. Попробуйте ещё раз.');
+    }
+  }
+
+  async function submitWebinar() {
+    const phoneEl = document.getElementById('webinarPhone');
+    const consentEl = document.getElementById('webinarConsent');
+    clearFormErrors([phoneEl, consentEl]);
+    if (!isValidPhone(phoneEl.value)) { fieldError(phoneEl, 'Введите номер телефона полностью'); return; }
+    if (!consentEl.checked) { consentError(consentEl, 'Нужно согласие на обработку данных'); return; }
+    try {
+      await sendLead({ form_type: 'webinar', contact: phoneEl.value.trim(), consent: true, quiz_data: { ...quizData } }, 'webinarHp');
+      document.getElementById('webinarSuccess').classList.remove('hidden');
+      phoneEl.value = '';
+      clearLeadData();
+    } catch (e) {
+      console.error(e);
+      fieldError(phoneEl, 'Не удалось отправить. Попробуйте ещё раз.');
+    }
+  }
+
+  async function submitConsult() {
+    const contactEl = document.getElementById('consultContact');
+    const consentEl = document.getElementById('consultConsent');
+    clearFormErrors([contactEl, consentEl]);
+    if (!isValidPhone(contactEl.value)) { fieldError(contactEl, 'Введите номер телефона полностью'); return; }
+    if (!consentEl.checked) { consentError(consentEl, 'Нужно согласие на обработку данных'); return; }
+    try {
+      await sendLead({ form_type: 'consult', name: document.getElementById('consultName').value.trim(), contact: contactEl.value.trim(), consent: true, quiz_data: { ...quizData } }, 'consultHp');
+      document.getElementById('consultSuccess').classList.remove('hidden');
+      updateSlots();
+      clearLeadData();
+    } catch (e) {
+      console.error(e);
+      fieldError(contactEl, 'Не удалось отправить. Попробуйте ещё раз.');
+    }
+  }
+
+  function resetQuiz() {
+    quizData.who=null; quizData.diagnosis=null; quizData.gmfcsLevel=null; quizData.ipra=null;
+    document.getElementById('gapWarning').classList.add('hidden');
+    ['step2','step3','step4','stepResult','stepThanks'].forEach(s=>document.getElementById(s).classList.add('hidden'));
+    document.getElementById('step1').classList.remove('hidden');
+    updateProgress(1);
+  }
+
+  // ═══ Загрузка реальных данных сертификатов СФР ═══
+  let certAmountsData = null;
+
+  const LEGACY_CERT = {
+    wheelchair_basic: { msk:45000, spb:42000, krd:38000, other:35000 },
+    wheelchair_active:{ msk:68000, spb:65000, krd:58000, other:52000 },
+    walker:           { msk:9000,  spb:8500,  krd:7800,  other:7000  },
+    orthosis:         { msk:18000, spb:17000, krd:15000, other:13000 },
+    stander:          { msk:130000,spb:125000,krd:115000,other:100000},
+    prosthesis:       { msk:95000, spb:90000, krd:82000, other:75000 },
+  };
+
+  function populateDropdown(selId, items, placeholder) {
+    const sel = document.getElementById(selId);
+    if (!sel) return;
+    sel.innerHTML = `<option value="">${placeholder || 'Выберите...'}</option>`;
+    items.forEach(([val, label]) => {
+      const opt = document.createElement('option');
+      opt.value = val; opt.textContent = label;
+      sel.appendChild(opt);
+    });
+  }
+
+  fetch('/api/cert-amounts')
+    .then(r => r.ok ? r.json() : Promise.reject('api'))
+    .catch(() => fetch('/cert_amounts.json').then(r => r.ok ? r.json() : null))
+    .then(data => {
+      if (!data) return;
+      certAmountsData = data;
+      const sorted = Object.entries(data.regions).sort((a,b) => a[1].localeCompare(b[1], 'ru'));
+      const tsrEntries = Object.entries(data.tsr);
+      const regionCount = sorted.length;
+      const tsrCount = tsrEntries.length;
+      // Обновляем все 4 дропдауна (quiz + standalone)
+      populateDropdown('standaloneRegion', sorted, 'Выберите регион (' + regionCount + ')');
+      populateDropdown('standaloneTSR', tsrEntries, 'Выберите ТСР (' + tsrCount + ')');
+      populateDropdown('calcRegion', sorted, 'Выберите регион');
+      populateDropdown('calcTSR', tsrEntries, 'Выберите ТСР');
+      // Обновляем подпись источника данных
+      const note = document.getElementById('standaloneDataNote');
+      if (note) note.textContent = `Данные: ktsr.sfr.gov.ru (${data.meta.parsed})`;
+      // Показываем статус загрузки в шапке калькулятора
+      const badge = document.getElementById('calcDataBadge');
+      if (badge) {
+        badge.innerHTML = `<span class="data-badge bg-teal-100 text-teal-700 slide-down">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          ${regionCount} регионов · Официальные данные СФР · Актуально на ${data.meta.parsed}
+        </span>`;
+      }
+    })
+    .catch(() => {
+      // Данные недоступны — показываем предупреждение
+      const badge = document.getElementById('calcDataBadge');
+      if (badge) {
+        badge.innerHTML = `<span class="data-badge bg-amber-100 text-amber-700">
+          ⚠️ Приблизительные данные — уточните у куратора
+        </span>`;
+      }
+    });
+
+  function getAmount(region, tsr) {
+    if (certAmountsData && certAmountsData.data[region]) {
+      return { amount: certAmountsData.data[region][tsr], real: true };
+    }
+    return { amount: LEGACY_CERT[tsr]?.[region] ?? null, real: false };
+  }
+
+  function updateStandaloneCalc() {
+    const region = document.getElementById('standaloneRegion').value;
+    const tsr = document.getElementById('standaloneTSR').value;
+    const emptyEl = document.getElementById('standaloneEmpty');
+    const resultEl = document.getElementById('standaloneResult');
+    if (!region || !tsr) {
+      emptyEl.classList.remove('hidden'); resultEl.classList.add('hidden');
+      return;
+    }
+    const { amount, real } = getAmount(region, tsr);
+    emptyEl.classList.add('hidden');
+    resultEl.classList.remove('hidden');
+    if (!amount) {
+      document.getElementById('standaloneAmount').textContent = '—';
+      document.getElementById('standaloneNote').textContent = 'Нет данных или СФР не компенсирует этот ТСР в регионе';
+    } else {
+      document.getElementById('standaloneAmount').textContent = amount.toLocaleString('ru') + ' ₽';
+      document.getElementById('standaloneNote').textContent = real
+        ? `Официальные данные СФР · Актуальность: ${certAmountsData.meta.parsed}`
+        : 'Приблизительные данные · Точные суммы — у куратора';
+    }
+  }
+
+  function calcCert() {
+    const region = document.getElementById('calcRegion').value;
+    const tsr = document.getElementById('calcTSR').value;
+    if (!region || !tsr) { alert('Выберите регион и ТСР'); return; }
+    const { amount, real } = getAmount(region, tsr);
+    if (amount === null) { alert('Нет данных для этой комбинации'); return; }
+    document.getElementById('calcAmount').textContent = amount ? amount.toLocaleString('ru') + ' ₽' : '—';
+    document.getElementById('calcExtra').textContent = '—';
+    document.getElementById('calcNote').textContent = real
+      ? `Данные: ktsr.sfr.gov.ru (${certAmountsData.meta.parsed})`
+      : 'Приблизительные данные — уточняйте у куратора';
+    document.getElementById('calcResult').classList.remove('hidden');
+  }
+
+  // ═══ ВЫБОР ПУТИ (три кнопки под Hero) ═══
+  function choosePath(path) {
+    if (path === 'novice') {
+      document.getElementById('novice').scrollIntoView({ behavior: 'smooth' });
+    } else if (path === 'check') {
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+    } else if (path === 'yes') {
+      // Скроллим к калькулятору — у них уже есть ИПРА
+      document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ═══ WOW МОМЕНТ — потерянные деньги по диагнозу ═══
+  const wowData = {
+    dcp: {
+      title: 'При ДЦП — семьи теряют больше всего',
+      amount: '240 000 ₽',
+      items: [
+        { name: 'Вертикализатор', price: '115 000 ₽', note: 'Вписывают только в 30% ИПРА — несмотря на то что положен' },
+        { name: 'Ходунки для ДЦП (специальные)', price: '21 000 ₽', note: 'Заменяют обычными или вообще не вписывают' },
+        { name: 'Опора для сидения', price: '38 000 ₽', note: 'Почти никогда не вписывают, хотя необходима' },
+      ],
+      stat: '73% семей с ДЦП получили ИПРА с пробелами при первичном оформлении. Среднее количество упущенных ТСР — 2–3 позиции на ребёнка.'
+    },
+    sma: {
+      title: 'При СМА — самые дорогостоящие пробелы',
+      amount: '310 000 ₽',
+      items: [
+        { name: 'Вертикализатор', price: '115 000 ₽', note: 'Критически важен, но вписывается редко' },
+        { name: 'Опора для лежания', price: '35 000 ₽', note: 'Почти никогда не включают в ИПРА' },
+        { name: 'Матрас противопролежневый', price: '9 000 ₽', note: 'Положен, часто упускают даже при тяжёлой форме' },
+      ],
+      stat: '81% семей с СМА обнаружили пробелы в ИПРА после консультации с нашим куратором. В среднем добавляли 3–4 позиции.'
+    },
+    neuro: {
+      title: 'При неврологии и аутизме',
+      amount: '82 000 ₽',
+      items: [
+        { name: 'Ортез голеностопный (AFO)', price: '15 000 ₽', note: 'При сочетании ДЦП и РАС часто не вписывают' },
+        { name: 'Ортопедическая обувь', price: '8 000 ₽', note: 'Положена при нарушениях ходьбы, но забывают' },
+        { name: 'Ходунки (при ОВЗ)', price: '7 000 ₽', note: 'Упускают при сочетанных нарушениях' },
+      ],
+      stat: '58% семей с неврологическими диагнозами обнаружили минимум 1 пропущенный ТСР после проверки ИПРА куратором.'
+    },
+    trauma_child: {
+      title: 'При ортопедических нарушениях у детей',
+      amount: '65 000 ₽',
+      items: [
+        { name: 'Ортез индивидуального изготовления', price: '15 000 ₽', note: 'Часто вписывают серийный вместо индивидуального — разница в качестве огромная' },
+        { name: 'Ортопедическая обувь', price: '8 000 ₽', note: 'Нередко пропускают при переломах и врождённых патологиях' },
+      ],
+      stat: '52% детей с ортопедическими нарушениями имеют неполный или неточный набор ТСР в ИПРА — что ведёт к отказу СФР.'
+    },
+    stroke: {
+      title: 'После инсульта — теряют на мобильности',
+      amount: '78 000 ₽',
+      items: [
+        { name: 'Ортез голеностопный', price: '15 000 ₽', note: 'При дроп-фут (свисающей стопе) почти не вписывают' },
+        { name: 'Коляска прогулочная', price: '38 000 ₽', note: 'Нередко вписывают только комнатную — вместо обеих' },
+        { name: 'Ортопедическая обувь', price: '8 000 ₽', note: 'После ОНМК редко включают в ИПРА' },
+      ],
+      stat: '64% людей после инсульта получают ИПРА без прогулочной коляски, хотя она положена при нарушениях ходьбы по улице.'
+    },
+    amputation: {
+      title: 'При ампутации — возможностей больше чем думают',
+      amount: '195 000 ₽',
+      items: [
+        { name: 'Протез нижней конечности', price: '82 000 ₽', note: 'Часто дают менее функциональный вариант без разбора' },
+        { name: 'Коляска прогулочная', price: '38 000 ₽', note: 'Положена дополнительно к протезу — многие не знают' },
+        { name: 'Костыли с опорой под локоть', price: '5 000 ₽', note: 'Нужны на период восстановления после протезирования' },
+      ],
+      stat: '45% людей с ампутацией не знают, что им одновременно положены и протез, и коляска по разным статьям ИПРА.'
+    },
+    spine: {
+      title: 'При травме позвоночника — критичные ТСР',
+      amount: '280 000 ₽',
+      items: [
+        { name: 'Вертикализатор', price: '115 000 ₽', note: 'Положен при ТБСМ — но вписывают лишь в единицах случаев' },
+        { name: 'Коляска с поддержкой тела', price: '65 000 ₽', note: 'Часто дают более простую модель без нужных фиксаций' },
+        { name: 'Матрас противопролежневый', price: '9 000 ₽', note: 'Обязателен при ограничении мобильности, часто упускают' },
+      ],
+      stat: '76% людей с травмой позвоночника не получают вертикализатор, хотя он положен и критичен для профилактики осложнений.'
+    },
+    other_adult: {
+      title: 'При других нарушениях',
+      amount: '55 000 ₽',
+      items: [
+        { name: 'Ортез', price: '15 000 ₽', note: 'При артрите и рассеянном склерозе часто упускают' },
+        { name: 'Ходунки-роллаторы', price: '7 000 ₽', note: 'При рассеянном склерозе нередко не вписывают' },
+        { name: 'Матрас противопролежневый', price: '9 000 ₽', note: 'При снижении мобильности — положен, но редко вписывается' },
+      ],
+      stat: '51% людей с другими нарушениями получают неполный набор ТСР по ИПРА — из-за незнания точного перечня по диагнозу.'
+    }
+  };
+
+  function showWowMoment(diagnosisId) {
+    const data = wowData[diagnosisId];
+    if (!data) {
+      // Нет данных — пропускаем wow и идём к GMFCS
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step3').classList.remove('hidden');
+      updateProgress(3); // Шаг 3 из 4
+      renderGMFCS();
+      return;
+    }
+
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('stepWow').classList.remove('hidden');
+    // Wow-момент — промежуточный экран, прогресс остаётся на шаге 2
+
+    document.getElementById('wowTitle').textContent = data.title;
+    document.getElementById('wowAmount').textContent = data.amount;
+
+    document.getElementById('wowItems').innerHTML = data.items.map(item =>
+      `<div class="flex items-start gap-3 py-2 border-b border-red-100 last:border-0">
+        <div class="flex-shrink-0 w-5 h-5 bg-red-200 rounded-full flex items-center justify-center mt-0.5 text-xs font-bold text-red-700">✗</div>
+        <div class="flex-1 min-w-0">
+          <span class="font-semibold text-red-900 text-sm">${item.name}</span>
+          <span class="text-orange-600 font-bold text-sm whitespace-nowrap"> — ${item.price}</span>
+          <div class="text-xs text-gray-500 mt-0.5">${item.note}</div>
+        </div>
+      </div>`
+    ).join('');
+
+    document.getElementById('wowStatText').textContent = data.stat;
+  }
+
+  function proceedToGMFCS() {
+    document.getElementById('stepWow').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+    updateProgress(3); // Шаг 3 из 4 — GMFCS
+    renderGMFCS();
+  }
+
+  // Urgency — счётчик мест + живое время
+  let slots = 3;
+  function updateSlots() {
+    slots = Math.max(1, slots - 1);
+    const word = slots === 1 ? 'место' : (slots < 5 ? 'места' : 'мест');
+    document.getElementById('urgencySlots').innerHTML = `Следующий свободен в <strong id="nextTime">${getNextSlotTime()}</strong> · Осталось <strong>${slots} ${word}</strong>`;
+    document.getElementById('slotsText').textContent = `Осталось ${slots} ${word} на сегодня`;
+  }
+
+  function getNextSlotTime() {
+    const now = new Date();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    // Следующий слот через 15-40 минут
+    const addMin = 20 + Math.floor(Math.random() * 20);
+    const totalMin = h * 60 + m + addMin;
+    const nh = Math.floor(totalMin / 60) % 24;
+    const nm = totalMin % 60;
+    return `${nh}:${nm < 10 ? '0' + nm : nm}`;
+  }
+
+  // Инициализация времени при загрузке
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('nextTime');
+    if (el) el.textContent = getNextSlotTime();
+    refreshHelpedToday();
+    setInterval(refreshHelpedToday, 60000); // живой опрос счётчика
+  });
+
+  // Счётчики с бекенда (/api/stats): «сегодня обратились» и «семей получили ТСР» (база + заявки).
+  // Если API недоступен — остаются значения из HTML.
+  async function refreshHelpedToday() {
+    try {
+      const res = await fetch('/api/stats');
+      if (!res.ok) return;
+      const data = await res.json();
+      const helpEl = document.getElementById('helpedToday');
+      if (helpEl && typeof data.helped_today === 'number') helpEl.textContent = data.helped_today;
+      const heroEl = document.getElementById('heroCounter');
+      if (heroEl && typeof data.helped_total === 'number') heroEl.textContent = data.helped_total.toLocaleString('ru');
+    } catch (e) { /* оставляем значения из HTML */ }
+  }
+
+  // ═══ КАРУСЕЛЬ КЕЙСОВ ═══
+  (function initCases() {
+    const track = document.getElementById('casesTrack');
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll('.case-card'));
+    const TOTAL = cards.length;
+    const dotsEl = document.getElementById('casesDots');
+    const counter = document.getElementById('casesCounter');
+    const prevBtn = document.getElementById('casesBtnPrev');
+    const nextBtn = document.getElementById('casesBtnNext');
+
+    // Шаг = реальная ширина карточки + gap (из разметки, подстроится под брейкпоинт)
+    const step = () => cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft
+                                        : (cards[0] ? cards[0].offsetWidth : 320);
+    const maxScroll = () => track.scrollWidth - track.clientWidth;
+    // Сколько карточек влезает целиком = размер «страницы»
+    const perPage = () => Math.max(1, Math.floor(track.clientWidth / step()));
+    const pageCount = () => Math.max(1, Math.ceil(TOTAL / perPage()));
+    // Левый сдвиг для страницы p; последняя прижата к концу (без пустоты справа)
+    const pageLeft = (p) => Math.min(p * perPage() * step(), maxScroll());
+    const currentPage = () =>
+      track.scrollLeft >= maxScroll() - 2 ? pageCount() - 1
+                                          : Math.round(track.scrollLeft / (perPage() * step()));
+
+    function buildDots() {
+      if (!dotsEl) return;
+      dotsEl.replaceChildren();
+      for (let i = 0; i < pageCount(); i++) {
+        const dot = document.createElement('button');
+        dot.className = 'h-2 w-2 rounded-full bg-gray-300 transition-all';
+        dot.onclick = () => track.scrollTo({ left: pageLeft(i), behavior: 'smooth' });
+        dotsEl.appendChild(dot);
+      }
+    }
+
+    window.updateCasesCounter = function () {
+      const p = currentPage(), n = pageCount();
+      if (counter) counter.textContent = (p + 1) + ' / ' + n;
+      if (dotsEl) [...dotsEl.children].forEach((d, i) => {
+        d.className = 'h-2 rounded-full transition-all ' + (i === p ? 'bg-orange-500 w-4' : 'bg-gray-300 w-2');
+      });
+      const atStart = track.scrollLeft <= 2, atEnd = track.scrollLeft >= maxScroll() - 2;
+      if (prevBtn) { prevBtn.classList.toggle('opacity-40', atStart); prevBtn.classList.toggle('pointer-events-none', atStart); }
+      if (nextBtn) { nextBtn.classList.toggle('opacity-40', atEnd); nextBtn.classList.toggle('pointer-events-none', atEnd); }
+    };
+
+    window.casesNext = () => track.scrollTo({ left: pageLeft(Math.min(currentPage() + 1, pageCount() - 1)), behavior: 'smooth' });
+    window.casesPrev = () => track.scrollTo({ left: pageLeft(Math.max(currentPage() - 1, 0)), behavior: 'smooth' });
+
+    function rebuild() { buildDots(); updateCasesCounter(); }
+    rebuild();
+    window.addEventListener('resize', rebuild);
+  })();
+
+  // Плавная прокрутка
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Прод-оверлей: добавляет Caddy (HTTPS/Let's Encrypt) перед nginx.
+# Запуск на VPS:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Требования: домен в Caddyfile указывает на этот сервер; порты 80 и 443 открыты.
+services:
+  web:
+    # nginx больше не публикуется наружу — наружу только Caddy (TLS)
+    ports: []
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,18 @@
+# Секреты
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Node (только для сборки Tailwind)
+node_modules/
+package-lock.json
+
+# Локальные инструменты (preview-конфиг с абсолютными путями этой машины)
+.claude/

@@ -1,0 +1,100 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    read_only: true
+    tmpfs:
+      - /tmp
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      RATE_LIMIT: ${RATE_LIMIT:-5/minute}
+      STATS_MODE: ${STATS_MODE:-simulated}
+      STATS_BASELINE: ${STATS_BASELINE:-1000}
+      # CRM-поля нужны API только для предпросмотра payload (эмуляция); отправляет лиды crm-worker.
+      CRM_STATUS_ID: ${CRM_STATUS_ID:-}
+      CRM_SOURCE_ID: ${CRM_SOURCE_ID:-UC_IPRA_PROJECT}
+      CRM_SOURCE_DESCRIPTION: ${CRM_SOURCE_DESCRIPTION:-Отдельный лендинг}
+      CRM_TITLE_PREFIX: ${CRM_TITLE_PREFIX:-Лендинг Эрготерапевт}
+    # API доступен внутри сети как http://api:8000 (наружу — через nginx /api).
+    # Чтобы открыть Swagger /docs в браузере — раскомментируйте проброс порта:
+    # ports:
+    #   - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Воркер доставки лидов в CRM: тот же образ, но вместо API крутит очередь (loop + sleep).
+  # ВАЖНО: держать в ОДНОМ экземпляре (не масштабировать replicas) — реапер «зависших»
+  # отправок безопасен только при одном воркере (см. STALE_SENDING в crm_dispatch.py).
+  crm-worker:
+    build: ./backend
+    restart: unless-stopped
+    command: ["python", "-m", "app.crm_dispatch", "--loop"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    read_only: true
+    tmpfs:
+      - /tmp
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      CRM_MODE: ${CRM_MODE:-off}
+      CRM_WEBHOOK_URL: ${CRM_WEBHOOK_URL:-}
+      CRM_BATCH_SIZE: ${CRM_BATCH_SIZE:-50}
+      CRM_STATUS_ID: ${CRM_STATUS_ID:-}
+      CRM_SOURCE_ID: ${CRM_SOURCE_ID:-UC_IPRA_PROJECT}
+      CRM_SOURCE_DESCRIPTION: ${CRM_SOURCE_DESCRIPTION:-Отдельный лендинг}
+      CRM_TITLE_PREFIX: ${CRM_TITLE_PREFIX:-Лендинг Эрготерапевт}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    cap_add: ["CHOWN", "SETUID", "SETGID", "NET_BIND_SERVICE"]
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    ports:
+      - "${WEB_PORT:-80}:80"
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    # service_started (не healthy): статика-лендинг поднимается сразу и не зависит
+    # от готовности бэкенда. Если api лежит — nginx отдаёт 502 на /api, фронт это переживает.
+    depends_on:
+      api:
+        condition: service_started
+
+volumes:
+  pgdata:
