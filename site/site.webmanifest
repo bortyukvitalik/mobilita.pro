@@ -1,0 +1,15 @@
+{
+  "name": "Mobilita — помощь в получении ТСР по ИПРА",
+  "short_name": "Mobilita",
+  "description": "Бесплатное сопровождение в проверке ИПРА и получении ТСР через электронный сертификат СФР.",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F2347",
+  "theme_color": "#1B3A6B",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

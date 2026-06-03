@@ -1,9 +1,15 @@
 # Caddy = терминация TLS + автоматический Let's Encrypt.
-# Подставьте свой домен. Нужно: DNS домена → IP VPS, открытые порты 80 и 443.
-iprahelp.ru, www.iprahelp.ru {
-    encode gzip
+# DNS: mobilita.pro И www.mobilita.pro → IP VPS, открыты порты 80 и 443.
+# Caddy сам редиректит http→https; www→без www — ниже. Итог: все варианты → https://mobilita.pro/
+mobilita.pro {
+    encode zstd gzip
     # HSTS — браузер запоминает, что сайт только по HTTPS
     header Strict-Transport-Security "max-age=31536000; includeSubDomains"
     # Проксируем на внутренний nginx (сервис web), наружу nginx не публикуется
     reverse_proxy web:80
+}
+
+# www → без www: единый канонический адрес (301)
+www.mobilita.pro {
+    redir https://mobilita.pro{uri} permanent
 }

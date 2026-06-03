@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /*?*utm
+Disallow: /*?*from
+
+Sitemap: https://mobilita.pro/sitemap.xml
+Host: https://mobilita.pro
