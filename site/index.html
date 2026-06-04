@@ -792,10 +792,10 @@
             <input type="text" id="formHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <label class="flex items-start gap-2 text-xs text-gray-500 text-left">
               <input type="checkbox" id="formConsent" class="mt-0.5 flex-shrink-0" />
-              <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a> и <a href="/privacy.html" target="_blank" class="underline">политику конфиденциальности</a></span>
+              <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a></span>
             </label>
             <button onclick="submitForm()" class="btn-primary w-full text-white font-bold py-3 rounded-xl text-sm">
-              Перезвоните мне →
+              Отправить заявку
             </button>
           </div>
         </div>
@@ -1476,11 +1476,11 @@
             <input type="tel" id="webinarPhone" placeholder="7 900 000 00 00"
               class="flex-1 bg-white border border-gray-200 text-gray-900 placeholder-gray-400 rounded-lg px-4 py-3 text-sm" />
             <input type="text" id="webinarHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button onclick="submitWebinar()" class="btn-primary text-white font-semibold px-5 py-3 rounded-lg whitespace-nowrap">Смотреть →</button>
+            <button onclick="submitWebinar()" class="btn-primary text-white font-semibold px-5 py-3 rounded-lg whitespace-nowrap">Отправить заявку</button>
           </div>
           <label class="flex items-start gap-2 text-xs text-gray-500 mt-3">
             <input type="checkbox" id="webinarConsent" class="mt-0.5 flex-shrink-0" />
-            <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a> и <a href="/privacy.html" target="_blank" class="underline">политику конфиденциальности</a></span>
+            <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a></span>
           </label>
           <div id="webinarSuccess" class="hidden mt-3 text-green-600 text-sm font-semibold">✓ Ссылка отправлена!</div>
         </div>
@@ -1624,10 +1624,10 @@
         <input type="text" id="consultHp" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <label class="flex items-start gap-2 text-xs text-gray-500">
           <input type="checkbox" id="consultConsent" class="mt-0.5 flex-shrink-0" />
-          <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a> и <a href="/privacy.html" target="_blank" class="underline">политику конфиденциальности</a></span>
+          <span>Согласен на <a href="#" onclick="openConsentModal(event)" class="underline">обработку персональных данных</a></span>
         </label>
         <button onclick="submitConsult()" class="btn-primary w-full text-white font-bold py-4 rounded-xl text-base">
-          Хочу чтобы куратор проверил мою ИПРА →
+          Отправить заявку
         </button>
         <div id="consultSuccess" class="hidden text-center text-green-600 font-semibold">✓ Заявка принята! Куратор свяжется в течение 15 минут</div>
         <p class="text-xs text-gray-400 text-center">ответим в течение 15 минут · Работаем 9:00–20:00</p>
@@ -1671,8 +1671,7 @@
     <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
       <div class="text-gray-600 text-xs">© 2026 Mobilita + Фонд <a href="https://ne-prosto-fond.online/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">«Шагать не просто»</a>. Все права защищены.</div>
       <div class="flex gap-4">
-        <a href="/privacy.html" class="text-gray-600 hover:text-gray-400 text-xs">Политика конфиденциальности</a>
-        <a href="#" onclick="openConsentModal(event)" class="text-gray-600 hover:text-gray-400 text-xs">Согласие на обработку данных</a>
+        <a href="#" onclick="openConsentModal(event)" class="text-gray-600 hover:text-gray-400 text-xs">Согласие на обработку персональных данных</a>
       </div>
     </div>
   </div>
@@ -2740,9 +2739,9 @@
     <button type="button" class="modal-close" aria-label="Закрыть" onclick="closeConsentModal()">×</button>
     <h3 id="consentModalTitle">Согласие на обработку персональных данных</h3>
     <div class="consent-text">
-      <p>Нажимая кнопку «Отправить заявку», я подтверждаю, что ознакомлен(а) с <a href="/privacy.html" target="_blank" rel="noopener">Политикой обработки персональных данных</a> и даю согласие Благотворительному фонду «Шагать не просто» (ОГРН 1237800091847) на обработку моих персональных данных, указанных в форме заявки (имя, номер телефона (и/или) адрес электронной почты (и/или) ник в мессенджере), в целях рассмотрения обращения, связи со мной, предоставления консультационной и информационной поддержки по вопросам получения технических средств реабилитации, внесения изменений в ИПРА и оформления электронного сертификата на технические средства реабилитации.</p>
+      <p>Нажимая кнопку «Отправить заявку», я подтверждаю, что ознакомлен(а) с Политикой обработки персональных данных и даю согласие Благотворительному фонду «Шагать не просто» (ОГРН 1237800091847) на обработку моих персональных данных, указанных в форме заявки (имя, номер телефона (и/или) адрес электронной почты (и/или) ник в мессенджере), в целях рассмотрения обращения, связи со мной, предоставления консультационной и информационной поддержки по вопросам получения технических средств реабилитации, внесения изменений в ИПРА и оформления электронного сертификата на технические средства реабилитации.</p>
       <p>Согласие действует до достижения целей обработки персональных данных либо до его отзыва субъектом персональных данных.</p>
-      <p>Подробная информация об обработке персональных данных содержится в <a href="/privacy.html" target="_blank" rel="noopener">Политике обработки персональных данных</a>.</p>
+      <p>Подробная информация об обработке персональных данных содержится в Политике обработки персональных данных.</p>
     </div>
     <button type="button" class="btn-primary text-white font-bold px-6 py-2.5 rounded-xl mt-1" onclick="closeConsentModal()">Понятно</button>
   </div>
