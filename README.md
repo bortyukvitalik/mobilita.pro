@@ -227,15 +227,37 @@ curl -H "X-Admin-Token: ВАШ_ТОКЕН" http://localhost/api/leads.csv -o lea
 
 ## Прод на VPS
 
-Рекомендованная конфигурация под ~1–2к польз./день: **2 vCPU / 4 ГБ RAM / 50 ГБ NVMe**,
-дата-центр **в РФ** (152-ФЗ: телефоны + данные о здоровье = спецкатегория ПДн).
+**Текущий прод:** `mobilita.pro` → VPS, проект в `/opt/mobilita` (git-чекаут ветки
+`main`), за Caddy (авто-HTTPS) и basic-auth (стейдж). Конфиг под ~1–2к польз./день:
+**2 vCPU / 4 ГБ RAM / 50 ГБ NVMe**, дата-центр **в РФ** (152-ФЗ: телефоны + данные
+о здоровье = спецкатегория ПДн).
 
-1. Ubuntu 22.04/24.04 LTS + Docker, склонировать проект, создать боевой `.env`
-   (сменить `POSTGRES_PASSWORD` и `ADMIN_TOKEN`, задать `CRM_*`).
+### Первичная установка
+1. Ubuntu 22.04/24.04 LTS + Docker. `git clone` в `/opt/mobilita` (deploy-ключ — ниже),
+   создать боевой `.env` (сменить `POSTGRES_PASSWORD`, `ADMIN_TOKEN`, задать `CRM_*`).
 2. `docker compose up -d --build`.
 3. **HTTPS:** `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
-   (Caddy выдаёт сертификат Let's Encrypt). Домен `iprahelp.ru` → A-запись на IP.
+   (Caddy → Let's Encrypt). `mobilita.pro` и `www.mobilita.pro` → A-запись на IP.
 4. **Бэкапы:** включить у провайдера + желательно `pg_dump` по крону (логический дамп БД).
+
+### Обновление (деплой через git)
+```bash
+ssh root@<ip> ; cd /opt/mobilita
+git pull                 # подтянуть main
+docker compose up -d     # перезапуск; добавить --build, если менялся backend/Docker
+# правки только в site/* — перезапускать ничего не нужно (nginx отдаёт из bind-mount)
+```
+**Deploy-ключ:** приватная часть на сервере — `~/.ssh/id_ed25519_github_deploy`,
+публичная добавлена в GitHub (Deploy keys, read-only). `~/.ssh/config` на сервере
+мапит `github.com` на этот ключ, поэтому `git pull` работает без доп. флагов.
+
+### Серверные файлы (вне git, не теряются при pull)
+- `.env`, `nginx/.htpasswd`, `docker-compose.override.yml` — в `.gitignore`.
+- `nginx/default.conf` помечен `git update-index --skip-worktree` (в нём 2 строки
+  basic-auth стейджа) — git его не трогает. **Если** правишь nginx-конфиг в репозитории:
+  на сервере `--no-skip-worktree` → `git pull` → вернуть basic-auth → снова поставить флаг.
+- `/etc/docker/daemon.json` → `"dns": ["8.8.8.8","1.1.1.1"]` — иначе контейнеры (включая
+  Caddy/ACME) не резолвят DNS через хостовый stub. Системный файл, вне репозитория.
 
 > **nginx + Docker:** `/api` проксируется через переменную с `resolver 127.0.0.11`,
 > поэтому пересборка `api`-контейнера (новый IP) **не роняет** `/api` — nginx

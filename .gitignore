@@ -1,6 +1,13 @@
 # Секреты
 .env
 
+# Серверные файлы (создаются на VPS, в репо не хранятся)
+nginx/.htpasswd                 # хэш basic-auth стейджа
+docker-compose.override.yml     # серверный оверлей (монтирует .htpasswd)
+
+# macOS AppleDouble (артефакты rsync)
+._*
+
 # Python
 __pycache__/
 *.py[cod]
