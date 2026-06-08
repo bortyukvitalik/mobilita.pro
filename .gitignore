@@ -1,9 +1,10 @@
 # Секреты
 .env
 
-# Серверные файлы (создаются на VPS, в репо не хранятся)
-nginx/.htpasswd                 # хэш basic-auth стейджа
-docker-compose.override.yml     # серверный оверлей (монтирует .htpasswd)
+# Серверные файлы (создаются на VPS, в репо не хранятся):
+# nginx/.htpasswd — хэш basic-auth стейджа; override.yml монтирует его
+nginx/.htpasswd
+docker-compose.override.yml
 
 # macOS AppleDouble (артефакты rsync)
 ._*
