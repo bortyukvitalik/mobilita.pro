@@ -1488,15 +1488,22 @@
         </div>
       </div>
       <div>
-        <div class="rounded-2xl overflow-hidden bg-[#0D1F3C] border border-gray-200 aspect-video flex items-center justify-center relative shadow-lg">
-          <div class="text-center" id="videoPlaceholder">
-            <!-- Декоративная кнопка плей (без клика и без ссылки на видео) -->
+        <div class="rounded-2xl overflow-hidden bg-[#0D1F3C] border border-gray-200 aspect-video flex items-center justify-center relative shadow-lg" id="videoBox">
+          <!-- Постер: плеер Rutube подгружается только по клику (не тянем стороннее до запроса пользователя) -->
+          <button type="button" id="videoPlaceholder" onclick="playWebinar()"
+                  class="text-center w-full h-full flex flex-col items-center justify-center cursor-pointer"
+                  aria-label="Смотреть вебинар «Как получить ТСР по ИПРА»">
             <div class="w-20 h-20 rounded-full bg-orange-500 flex items-center justify-center mx-auto mb-4 orange-glow" aria-hidden="true">
               <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
             <div class="text-white font-semibold">Как получить ТСР по ИПРА</div>
             <div class="text-blue-300 text-sm mt-1">45 минут • Бесплатно</div>
-          </div>
+          </button>
+        </div>
+        <div class="text-center mt-3">
+          <a href="https://rutube.ru/video/private/be2a4b19ec5ea4adb8096b9d9043c4de/?p=r_lgUu0aAH_legjH9x-2Bg"
+             target="_blank" rel="noopener"
+             class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Смотреть на Rutube →</a>
         </div>
         <div class="flex items-center justify-center gap-6 mt-4">
           <div class="text-center"><div class="text-xl font-black text-gray-900">4.9 ★</div><div class="text-xs text-gray-400">оценка</div></div>
@@ -2347,6 +2354,20 @@
       console.error(e);
       fieldError(phoneEl, 'Не удалось отправить. Попробуйте ещё раз.');
     }
+  }
+
+  // Плеер Rutube подставляем только по клику: до этого стороннее ничего не грузится.
+  function playWebinar() {
+    const box = document.getElementById('videoBox');
+    if (!box) return;
+    const f = document.createElement('iframe');
+    f.src = 'https://rutube.ru/play/embed/be2a4b19ec5ea4adb8096b9d9043c4de/?p=r_lgUu0aAH_legjH9x-2Bg&autoplay=1';
+    f.title = 'Вебинар: как получить ТСР по ИПРА';
+    f.className = 'w-full h-full';
+    f.setAttribute('frameborder', '0');
+    f.setAttribute('allow', 'clipboard-write; autoplay; fullscreen');
+    f.setAttribute('allowfullscreen', '');
+    box.replaceChildren(f);
   }
 
   async function submitWebinar() {
